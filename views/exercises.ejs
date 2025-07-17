@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gym Tracker</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>💪 Gym Tracker</h1>
+    
+    <div class="nav">
+        <a href="/">📊 Dashboard</a>
+        <a href="/calendar">📅 Calendar</a>
+        <a href="/exercises">🏋️ Exercises</a>
+    </div>
+    
+    <form action="/add-exercise" method="POST">
+        <div class="form-group">
+            <label>Exercise Name:</label>
+            <input type="text" name="exercise" required>
+        </div>
+        <button type="submit">Add Exercise</button>
+    </form>
+
+    <h2>🏋️ Exercises</h2>
+
+    <div id="exercise-list">
+        <% if (exercises.length === 0) { %>
+            <p>No exercises added yet. Add your first exercise above!</p>
+        <% } else { %>
+            <% exercises.forEach(exercise => { %>
+                <div class="exercise">
+                    <strong><%= exercise.name %></strong>
+                    <% if (exercise.current_stats) { %>
+                        <br>
+                        <strong>Sets:</strong> <%= exercise.current_stats.sets %> |
+                        <strong>Reps:</strong> <%= exercise.current_stats.reps %> |
+                        <strong>Weight:</strong> <%= exercise.current_stats.weight %>kg
+                        <% if (exercise.current_stats.date) { %>
+                            <br>
+                            <small>Last updated: <%= exercise.current_stats.date %></small>
+                        <% } %>
+                    <% } else { %>
+                        <br>
+                        <small>No current stats available</small>
+                    <% } %>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+        
+    <script src="/scripts.js"></script>
+    <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>
+    <script type="application/json" id="exercise-data"><%- JSON.stringify(exercises) %></script>
+</body>
+</html>

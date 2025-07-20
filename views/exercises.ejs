@@ -18,6 +18,10 @@
             <label>Exercise Name:</label>
             <input type="text" name="exercise" required>
         </div>
+        <div class="form-group">
+            <label>Category:</label>
+            <input type="text" name="category" required>
+        </div>
         <button type="submit">Add Exercise</button>
     </form>
 
@@ -28,26 +32,43 @@
             <p>No exercises added yet. Add your first exercise above!</p>
         <% } else { %>
             <% exercises.forEach(exercise => { %>
-                <div class="exercise">
-                    <strong><%= exercise.name %></strong>
-                    <% if (exercise.current_stats) { %>
+                <div class="exercise"">
+                    <div class="exercise-stats-container">
+                        <strong><%= exercise.name %></strong>
                         <br>
-                        <strong>Sets:</strong> <%= exercise.current_stats.sets %> |
-                        <strong>Reps:</strong> <%= exercise.current_stats.reps %> |
-                        <strong>Weight:</strong> <%= exercise.current_stats.weight %>kg
-                        <% if (exercise.current_stats.date) { %>
+                        <strong><%= exercise.category %></strong>
+                        <% if (exercise.current_stats) { %>
                             <br>
-                            <small>Last updated: <%= exercise.current_stats.date %></small>
+                            <strong>Sets:</strong> <%= exercise.current_stats.sets %> |
+                            <strong>Reps:</strong> <%= exercise.current_stats.reps %> |
+                            <strong>Weight:</strong> <%= exercise.current_stats.weight %>kg
+                            <% if (exercise.current_stats.date) { %>
+                                <br>
+                                <small>Last updated: <%= exercise.current_stats.date %></small>
+                            <% } %>
+                        <% } else { %>
+                            <br>
+                            <small>No current stats available</small>
                         <% } %>
-                    <% } else { %>
-                        <br>
-                        <small>No current stats available</small>
+                    </div>
+                    <% if (exercise.current_stats) { %>
+                    <div class="exercise-chart-container">
+                        <div class="exercise-chart">
+                            <canvas id="chart-reps-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
+                            <div>Reps</div>
+                        </div>
+                        <div class="exercise-chart">
+                            <canvas id="chart-weight-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
+                            <div>Weight (kg)</div>
+                        </div>
+                    </div>
                     <% } %>
                 </div>
             <% }); %>
         <% } %>
     </div>
         
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/scripts.js"></script>
     <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>
     <script type="application/json" id="exercise-data"><%- JSON.stringify(exercises) %></script>

@@ -1,3 +1,74 @@
+// ----------------------------Exercise Graphs----------------------------
+document.addEventListener('DOMContentLoaded', function() {
+    const exerciseDataElement = document.getElementById('exercise-data');
+    if (!exerciseDataElement) return;
+    let exercises = [];
+    try {
+        exercises = JSON.parse(exerciseDataElement.textContent);
+    } catch (e) {
+        console.error('Error parsing exercise data:', e);
+        return;
+    }
+
+    exercises.forEach(exercise => {
+        const safeName = exercise.name.replace(/\s+/g, '-');
+        const ctxReps = document.getElementById('chart-reps-' + safeName);
+        const ctxWeight = document.getElementById('chart-weight-' + safeName);
+        const labels = exercise.journey.map(j => {
+            if (!j.date) return '';
+            const parts = j.date.split('.');
+            if (parts.length < 3) return '';
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10);
+            return `${day}.${month}.`;
+        });
+        const reps = exercise.journey.map(j => j.reps || 0);
+        const weight = exercise.journey.map(j => j.weight || 0);
+
+        if (ctxReps) {
+            new Chart(ctxReps, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Reps',
+                        data: reps,
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40,167,69,0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false } }
+                }
+            });
+        }
+        if (ctxWeight) {
+            new Chart(ctxWeight, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Weight (kg)',
+                        data: weight,
+                        borderColor: '#ffc107',
+                        backgroundColor: 'rgba(255,193,7,0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false } }
+                }
+            });
+        }
+    });
+});
 
 // ----------------------------Calendar Functionality----------------------------
 
@@ -35,7 +106,7 @@ function generateCalendar(year, month) {
     for (let i = 0; i < firstDay; i++) {
         const dayCell = document.createElement('div');
         dayCell.className = 'calendar-day';
-        dayCell.style.background = '#f8f9fa';
+        dayCell.style.background = '#ddd';
         calendar.appendChild(dayCell);
     }
     

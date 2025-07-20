@@ -141,6 +141,12 @@ label {
     border-left: 4px solid var(--primary);
 }
 
+#timer {
+    font-size: 2em;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
 
 /* ---------------------------------------------------Calendar Styles------------------------------------------------- */
 

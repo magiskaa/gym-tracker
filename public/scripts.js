@@ -1,4 +1,5 @@
 // ----------------------------Exercise Graphs----------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
     const exerciseDataElement = document.getElementById('exercise-data');
     if (!exerciseDataElement) return;
@@ -70,11 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 // ----------------------------Calendar Functionality----------------------------
 
 let currentDate = new Date();
-let workouts = []; // Will be populated from the page
-let exercises = []; // Will be populated from the page
 
 function generateCalendar(year, month) {
     const calendar = document.getElementById('calendar');
@@ -122,12 +122,12 @@ function generateCalendar(year, month) {
         
         // Show workouts for this day
         const dateStr = new Date(year, month, day).toLocaleDateString();
-        const dayWorkouts = workouts.filter(w => w.date === dateStr);
+        const dayWorkouts = completed_workouts.filter(w => w.date === dateStr);
         
         dayWorkouts.forEach(workout => {
             const workoutDiv = document.createElement('div');
             workoutDiv.className = 'workout-dot';
-            workoutDiv.textContent = workout.exercise;
+            workoutDiv.textContent = workout.name;
             dayCell.appendChild(workoutDiv);
         });
         
@@ -145,10 +145,10 @@ function loadWorkoutData() {
     const workoutDataElement = document.getElementById('workout-data');
     if (workoutDataElement) {
         try {
-            workouts = JSON.parse(workoutDataElement.textContent);
+            completed_workouts = JSON.parse(workoutDataElement.textContent);
         } catch (e) {
             console.error('Error parsing workout data:', e);
-            workouts = [];
+            completed_workouts = [];
         }
     }
 }
@@ -172,3 +172,84 @@ document.addEventListener('DOMContentLoaded', function() {
     loadExerciseData();
     generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
 });
+
+// ----------------------------Workout Functionality----------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    let exerciseCount = 0;
+    const exerciseFields = document.getElementById('exercise-fields');
+    const addExerciseBtn = document.getElementById('add-exercise-btn');
+
+    // Assume exercisesList is an array of exercise names loaded from exercises.json
+    function createExerciseField(index) {
+        const wrapper = document.createElement('div');
+
+        const label = document.createElement('label');
+        label.textContent = `Exercise ${index + 1}:`;
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.name = `exercise-${index}`;
+        nameInput.setAttribute('list', 'exercise-suggestions');
+        nameInput.required = true;
+
+        wrapper.append(label, nameInput);
+        exerciseFields.appendChild(wrapper);
+    }
+
+    // Create datalist for suggestions
+    const datalist = document.createElement('datalist');
+    datalist.id = 'exercise-suggestions';
+    exercises.forEach(ex => {
+        const option = document.createElement('option');
+        option.value = ex.name;
+        datalist.appendChild(option);
+    });
+    document.body.appendChild(datalist);
+
+    for (let i = 0; i < 3; i++) {
+    createExerciseField(i);
+    exerciseCount++;
+    }
+
+    // Add more fields on button click
+    addExerciseBtn.addEventListener('click', () => {
+        createExerciseField(exerciseCount);
+        exerciseCount++;
+    });
+});
+
+
+// ----------------------------Workout in Progress----------------------------
+
+const timerElem = document.getElementById('timer');
+if (timerElem) {
+    let startTime = localStorage.getItem('workoutStartTime');
+    if (!startTime) {
+        startTime = Date.now();
+        localStorage.setItem('workoutStartTime', startTime);
+    }
+
+    function updateTimer() {
+        const now = Date.now();
+        const elapsed = Math.floor((now - startTime) / 1000);
+        const hours = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+        const secs = String(elapsed % 60).padStart(2, '0');
+        timerElem.textContent = `${hours}:${minutes}:${secs}`;
+        document.getElementById('duration-field').value = elapsed; // Set duration in the form
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    const workoutForm = document.querySelector('form[action=\"/end-workout\"]');
+    if (workoutForm) {
+        workoutForm.addEventListener('submit', () => {
+            localStorage.removeItem('workoutStartTime');
+        });
+    }
+}
+
+
+    

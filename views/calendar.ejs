@@ -29,8 +29,13 @@
     <% } else { %>
         <% workouts.forEach(workout => { %>
             <div class="workout">
-                <strong><%= workout.exercise %></strong><br>
-                Sets: <%= workout.sets %> | Reps: <%= workout.reps %> | Weight: <%= workout.weight %>kg<br>
+                <strong><%= workout.name %></strong><br>
+                Duration: <%= workout.duration %><br>
+                Exercises:
+                <% workout.exercises.forEach((ex, i) => { %>
+                    <%= `${i + 1}. ${ex.name}` %>
+                <% }) %>
+                <br>
                 <small>Date: <%= workout.date %></small>
             </div>
         <% }); %>

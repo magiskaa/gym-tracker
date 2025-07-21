@@ -8,15 +8,36 @@
     <h1>💪 Gym Tracker</h1>
 
     <div class="nav">
-        <a href="/">📊 Dashboard</a>
+        <a href="/">📊 Workouts</a>
         <a href="/calendar">📅 Calendar</a>
         <a href="/exercises">🏋️ Exercises</a>
     </div>
+
+    <h2>Start a Preset Workout</h2>
+    <div id="preset-workout-list">
+        <% if (preset_workouts.length === 0) { %>
+            <p>No preset workouts available. Add your first workout in the Exercises section!</p>
+        <% } else { %>
+            <% preset_workouts.forEach(workout => { %>
+                <div class="workout" id="preset-workouts">
+                    <div>
+                        <strong><%= workout.name %></strong>
+                        <br>
+                        <% workout.exercises.forEach((ex, i) => { %>
+                            <%= `${i + 1}. ${ex}` %>
+                            <br>
+                        <% }) %>
+                    </div>
+                    <button class="start-workout-btn" data-workout-id="<%= workout.id %>">Start Workout</button>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
             
-    <h2>Log a Workout</h2>
+    <h2>Make a Workout</h2>
     <form id="workout-form" action="/Start-workout" method="POST">
         <div id="exercise-fields"></div>
-        <button type="button" id="add-exercise-btn">Add Exercise</button>
+        <button type="button" id="add-exercise-btn">Add Exercise</button><br>
         <button type="submit">Start Workout</button>
     </form>
     
@@ -40,6 +61,7 @@
 
     <script src="/scripts.js"></script>
     <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>
+    <script type="application/json" id="preset-workout-data"><%- JSON.stringify(preset_workouts) %></script>
     <script type="application/json" id="exercise-data"><%- JSON.stringify(exercises) %></script>
 </body>
 </html>

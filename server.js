@@ -58,7 +58,7 @@ loadWorkouts();
 
 // Simple route to show the main page
 app.get('/', (req, res) => {
-  res.render('index', { workouts: completed_workouts, exercises: exercises });
+  res.render('index', { preset_workouts: preset_workouts, workouts: completed_workouts, exercises: exercises });
 });
 
 // Calendar route
@@ -78,6 +78,12 @@ app.get('/workout', (req, res) => {
 
 app.post('/add-exercise', (req, res) => {
   const { exercise, category } = req.body;
+  
+  const validCategories = ['Rinta', 'Selkä', 'Jalat', 'Olkapäät', 'Hauis', 'Ojentajat'];
+  if (!validCategories.includes(category)) {
+    return res.status(400).send('Invalid category. Please select a valid category.');
+  }
+
   const newExercise = {
     name: exercise,
     category: category,
@@ -176,7 +182,7 @@ app.post('/end-workout', (req, res) => {
 
   completed_workouts.push(newWorkout);
 
-  fs.writeFileSync(workoutsPath, JSON.stringify({ completed_workouts }, null, 2), 'utf8');
+  fs.writeFileSync(workoutsPath, JSON.stringify({ preset_workouts, completed_workouts }, null, 2), 'utf8');
 
   fs.writeFileSync(exercisesPath, JSON.stringify({ exercises }, null, 2), 'utf8');
 

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <title>Gym Tracker</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>💪 Gym Tracker</h1>
+    <h1>Gym Tracker</h1>
 
     <div class="nav">
         <a href="/">📊 Workouts</a>
@@ -28,7 +30,15 @@
                             <br>
                         <% }) %>
                     </div>
-                    <button class="start-workout-btn" data-workout-id="<%= workout.id %>">Start Workout</button>
+                    <form action="/Start-workout" method="POST">
+                        <% workout.exercises.forEach((ex, i) => { %>
+                            <input type="hidden" name="exercise-<%= i %>" value="<%= ex %>">
+                        <% }) %>
+                        <input type="hidden" name="workoutName" value="<%= workout.name %>">
+                        <div class="workout-button-container">
+                            <button type="submit">Start Preset Workout</button>
+                        </div>
+                    </form>
                 </div>
             <% }); %>
         <% } %>
@@ -45,16 +55,16 @@
     <% if (workouts.length === 0) { %>
         <p>No workouts logged yet. Add your first workout above!</p>
     <% } else { %>
-        <% workouts.forEach(workout => { %>
+        <% workouts.slice().reverse().forEach(workout => { %>
             <div class="workout">
                 <strong><%= workout.name %></strong><br>
-                Duration: <%= workout.duration %><br>
-                Exercises:
+                ⏱️Duration: <%= workout.duration %><br>
+                🏋️Exercises:
                 <% workout.exercises.forEach((ex, i) => { %>
                     <%= `${i + 1}. ${ex.name}` %>
                 <% }) %>
                 <br>
-                <small>Date: <%= workout.date %></small>
+                <small>📅Date: <%= workout.date %></small>
             </div>
         <% }); %>
     <% } %>

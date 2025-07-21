@@ -86,7 +86,7 @@ function generateCalendar(year, month) {
     calendar.innerHTML = '';
     
     // Add day headers
-    const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     dayHeaders.forEach(day => {
         const dayHeader = document.createElement('div');
         dayHeader.style.background = '#333';
@@ -103,7 +103,7 @@ function generateCalendar(year, month) {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     // Add empty cells for days before month starts
-    for (let i = 0; i < firstDay; i++) {
+    for (let i = 1; i < firstDay; i++) {
         const dayCell = document.createElement('div');
         dayCell.className = 'calendar-day';
         dayCell.style.background = '#ddd';
@@ -114,6 +114,15 @@ function generateCalendar(year, month) {
     for (let day = 1; day <= daysInMonth; day++) {
         const dayCell = document.createElement('div');
         dayCell.className = 'calendar-day';
+
+        const today = new Date();
+        if (
+            year === today.getFullYear() &&
+            month === today.getMonth() &&
+            day === today.getDate()
+        ) {
+            dayCell.classList.add('calendar-today');
+        }
         
         const dayNumber = document.createElement('div');
         dayNumber.className = 'day-number';
@@ -180,7 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const exerciseFields = document.getElementById('exercise-fields');
     const addExerciseBtn = document.getElementById('add-exercise-btn');
 
-    // Assume exercisesList is an array of exercise names loaded from exercises.json
     function createExerciseField(index) {
         const wrapper = document.createElement('div');
 

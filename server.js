@@ -19,6 +19,7 @@ let preset_workouts = [];
 let completed_workouts = [];
 let exercises = [];
 let submittedExercises = [];
+let workoutName = '';
 
 // Path to the exercises JSON file
 const exercisesPath = path.join(__dirname, 'data', 'exercises.json');
@@ -117,6 +118,8 @@ app.post('/start-workout', (req, res) => {
     .filter(key => key.startsWith('exercise-'))
     .map(key => req.body[key]);
 
+  workoutName = req.body.workoutName || `Workout ${completed_workouts.length + 1}`;
+
   // Validate submitted exercises
   const validExerciseNames = exercises.map(e => e.name);
   const allValid = Array.isArray(submittedExercises) 
@@ -174,7 +177,7 @@ app.post('/end-workout', (req, res) => {
 
   // Create a new workout entry
   const newWorkout = {
-    name: `Workout ${completed_workouts.length + 1}`,
+    name: workoutName,
     duration: workoutDuration,
     date: new Date().toLocaleDateString(),
     exercises: exercisesData

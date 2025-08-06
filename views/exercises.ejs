@@ -10,7 +10,7 @@
     <h1>Gym Tracker</h1>
     
     <div class="nav">
-        <a href="/">📊 Workouts</a>
+        <a href="/">💪 Workouts</a>
         <a href="/calendar">📅 Calendar</a>
         <a href="/exercises">🏋️ Exercises</a>
     </div>
@@ -43,9 +43,11 @@
                         <strong><%= exercise.category %></strong>
                         <% if (exercise.current_stats) { %>
                             <br>
-                            <strong>Sets:</strong> <%= exercise.current_stats.sets %> |
-                            <strong>Reps:</strong> <%= exercise.current_stats.reps %> |
-                            <strong>Weight:</strong> <%= exercise.current_stats.weight %>kg
+                            Current Stats:
+                            <br>
+                            Sets: <strong><%= exercise.current_stats.sets %></strong> |
+                            Reps: <strong><%= exercise.current_stats.reps.toFixed(1) %></strong> |
+                            Weight: <strong><%= exercise.current_stats.weight %>kg</strong>
                             <% if (exercise.current_stats.date) { %>
                                 <br>
                                 <small>Last updated: <%= exercise.current_stats.date %></small>
@@ -59,7 +61,7 @@
                     <div class="exercise-chart-container">
                         <div class="exercise-chart">
                             <canvas id="chart-reps-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
-                            <div>Reps</div>
+                            <div>Reps / Set</div>
                         </div>
                         <div class="exercise-chart">
                             <canvas id="chart-weight-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>

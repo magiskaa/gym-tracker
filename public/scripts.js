@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Reps',
+                        label: 'Reps / Set',
                         data: reps,
                         borderColor: '#28a745',
                         backgroundColor: 'rgba(40,167,69,0.1)',
@@ -257,7 +257,21 @@ if (timerElem) {
             localStorage.removeItem('workoutStartTime');
         });
     }
+
+    const deleteWorkoutForm = document.querySelector('form[action=\"/delete-workout\"]');
+    if (deleteWorkoutForm) {
+        deleteWorkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (confirm('Are you sure you want to delete this workout? All progress will be lost.')) {
+                localStorage.removeItem('workoutStartTime');
+                deleteWorkoutForm.submit();
+            }
+        });
+    }
 }
+
+
 
 
     

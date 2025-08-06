@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
     <title>Gym Tracker</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
@@ -34,10 +34,11 @@
                 <strong><%= workout.name %></strong><br>
                 ⏱️Duration: <%= workout.duration %><br>
                 🏋️Exercises:
-                <% workout.exercises.forEach((ex, i) => { %>
-                    <%= `${i + 1}. ${ex.name}` %>
-                <% }) %>
                 <br>
+                <% workout.exercises.forEach((ex, i) => { %>
+                    <strong><%= `${i + 1}. ${ex.name}` %></strong>
+                    <br>
+                <% }) %>
                 <small>📅Date: <%= workout.date %></small>
             </div>
         <% }); %>

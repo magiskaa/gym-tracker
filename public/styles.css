@@ -65,6 +65,7 @@ h1 {
 }
 
 h2 {
+    margin-top: 40px;
     color: var(--secondary);
     font-size: 1.5em;
 }
@@ -94,6 +95,16 @@ input, button {
     transition: border 0.2s, background 0.2s, color 0.2s;
     cursor: pointer; 
     padding: 10px 20px; 
+}
+
+/* Ensure inputs don't cause zoom on mobile */
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="password"], 
+select, 
+textarea {
+    font-size: 20px;
 }
 
 button {
@@ -163,8 +174,33 @@ label {
 
 #timer {
     font-size: 2em;
-    color: var(--primary);
+    color: #b75adf;
     margin: 20px 0;
+}
+
+#workout-exercise-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.workout-exercise-entry {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#end-workout-button {
+    margin-bottom: 15px;
+}
+
+#delete-workout-button {
+    background: #cb0c0c;
+    color: var(--text);
+    margin-top: 20px;
+}
+
+.start-workout-button {
+    background: #1ea657;
 }
 
 
@@ -210,7 +246,7 @@ label {
 }
 
 .calendar-today {
-    background: #d9dbde;
+    background: #cfd2d6;
 }
 
 .day-number {

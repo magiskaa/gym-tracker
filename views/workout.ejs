@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
     <title>Gym Tracker</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
@@ -13,8 +13,8 @@
     <div id="timer">00:00:00</div>
     <form action="/end-workout" method="POST">
         <% submittedExercises.forEach((ex, i) => { %>
-            <div>
-                <strong><%= ex %>:</strong>
+            <div class="workout-exercise-entry">
+                <strong id="workout-exercise-name"><%= ex %>:</strong>
                 <br>
                 <input type="number" name="sets-<%= i %>" placeholder="Sets" required>
                 <input type="number" name="reps-<%= i %>" placeholder="Reps" required>
@@ -23,9 +23,12 @@
                 <input type="hidden" name="duration" id="duration-field"> 
             </div>
         <% }) %>
-        <button type="submit">End Workout</button>
+        <button type="submit" id="end-workout-button">End Workout</button>
     </form>
 
+    <form action="/delete-workout" method="POST">
+        <button type="submit" id="delete-workout-button">Delete Workout</button>
+    </form>
         
     <script src="/scripts.js"></script>
     <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>

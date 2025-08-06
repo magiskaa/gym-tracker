@@ -77,6 +77,7 @@ app.get('/workout', (req, res) => {
   res.render('workout', { workouts: completed_workouts, exercises: exercises, submittedExercises: submittedExercises });
 });
 
+// Handle adding a new exercise
 app.post('/add-exercise', (req, res) => {
   const { exercise, category } = req.body;
   
@@ -133,6 +134,7 @@ app.post('/start-workout', (req, res) => {
   res.redirect('/workout');
 });
 
+// Handle ending a workout
 app.post('/end-workout', (req, res) => {
   const duration = parseInt(req.body.duration) || 0;
   const hours = String(Math.floor(duration / 3600)).padStart(2, '0');
@@ -158,14 +160,14 @@ app.post('/end-workout', (req, res) => {
       exercise.journey.push({
         date: new Date().toLocaleDateString(),
         sets: exerciseData.sets,
-        reps: exerciseData.reps,
+        reps: exerciseData.reps / exerciseData.sets,
         weight: exerciseData.weight
       });
       // Update current stats
       exercise.current_stats = {
         date: new Date().toLocaleDateString(),
         sets: exerciseData.sets,
-        reps: exerciseData.reps,
+        reps: exerciseData.reps / exerciseData.sets,
         weight: exerciseData.weight
       };
       // Update starting stats if it's the first entry
@@ -190,6 +192,15 @@ app.post('/end-workout', (req, res) => {
   fs.writeFileSync(exercisesPath, JSON.stringify({ exercises }, null, 2), 'utf8');
 
   res.redirect('/calendar');
+});
+
+// Handle deleting workout in progress
+app.post('/delete-workout', (req, res) => {
+  // Clear the submitted exercises and workout name
+  submittedExercises = [];
+  workoutName = '';
+  
+  res.redirect('/');
 });
 
 // Start the server

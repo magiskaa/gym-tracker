@@ -3,13 +3,22 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 // Set EJS as our template engine
 app.set('view engine', 'ejs');
 
 // Serve static files from public folder
-app.use(express.static('public'));
+app.use(express.static('public', {
+  setHeaders: function (res, path, stat) {
+    // Prevent caching of CSS and JS files
+    if (path.endsWith('.css') || path.endsWith('.js')) {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+    }
+  }
+}));
 
 // Parse form data
 app.use(express.urlencoded({ extended: true }));

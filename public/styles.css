@@ -199,8 +199,19 @@ label {
     margin-top: 20px;
 }
 
+#delete-workout-button:hover {
+    background: #a00909;
+    color: var(--text);
+}
+
 .start-workout-button {
     background: #1ea657;
+    color: white;
+}
+
+.start-workout-button:hover {
+    background: #138a41;
+    color: white;
 }
 
 

@@ -92,7 +92,7 @@ The application uses JSON files for data storage:
 - **users.json**: Not yet implemented
 
 ### Customization
-- **Port**: Change the port in `server.js` (default: 3000)
+- **Port**: Change the port in `server.js` (default: 4000)
 - **Exercise Categories**: Modify exercise categories in `server.js`
 - **Styling**: Customize colors and themes in `public/styles.css`
 

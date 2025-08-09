@@ -29,12 +29,17 @@ let completed_workouts = [];
 let exercises = [];
 let submittedExercises = [];
 let workoutName = '';
+let nutrition = [];
+let food_list = [];
 
 // Path to the exercises JSON file
 const exercisesPath = path.join(__dirname, 'data', 'exercises.json');
 
 // Path to the workouts JSON file
 const workoutsPath = path.join(__dirname, 'data', 'workouts.json');
+
+// Path to the nutrition JSON file
+const nutritionPath = path.join(__dirname, 'data', 'nutrition.json');
 
 // Function to load exercises from JSON file
 function loadExercises() {
@@ -66,6 +71,24 @@ function loadWorkouts() {
 // Load workouts when server starts
 loadWorkouts();
 
+function loadNutrition() {
+  try {
+    const data = fs.readFileSync(nutritionPath, 'utf8');
+    const parsedData = JSON.parse(data);
+    nutrition = parsedData.nutrition || [];
+    food_list = parsedData.food_list || [];
+  } catch (error) {
+    console.error('Error loading nutrition:', error);
+    nutrition = []; // fallback to empty array
+    food_list = []; // fallback to empty array
+  }
+}
+// Load nutrition when server starts
+loadNutrition();
+
+
+// =============================================== GET ============================================
+
 // Simple route to show the main page
 app.get('/', (req, res) => {
   res.render('index', { preset_workouts: preset_workouts, workouts: completed_workouts, exercises: exercises });
@@ -81,10 +104,18 @@ app.get('/exercises', (req, res) => {
   res.render('exercises' , { workouts: completed_workouts, exercises: exercises });
 })
 
+// Nutrition route
+app.get('/nutrition', (req, res) => {
+  res.render('nutrition' , { nutrition: nutrition, food_list: food_list });
+})
+
 // Workout route
 app.get('/workout', (req, res) => {
   res.render('workout', { workouts: completed_workouts, exercises: exercises, submittedExercises: submittedExercises });
 });
+
+
+// =============================================== POST ============================================
 
 // Handle adding a new exercise
 app.post('/add-exercise', (req, res) => {
@@ -211,6 +242,41 @@ app.post('/delete-workout', (req, res) => {
   
   res.redirect('/');
 });
+
+app.post('/add-custom', (req, res) => {
+  const calories = parseInt(req.body.calories);
+  const protein = parseInt(req.body.protein);
+  if(!isNaN(calories) && !isNaN(protein)) {
+    nutrition.calories += calories;
+    nutrition.protein += protein;
+    nutrition.foods.push({
+      name: 'Custom',
+      calories: calories,
+      protein: protein
+    });
+    fs.writeFileSync(nutritionPath, JSON.stringify({ nutrition }, null, 2), 'utf8');
+  }
+  res.redirect('/nutrition');
+});
+
+app.post('/add-food', (req, res) => {
+  const foodName = req.body.name;
+  const foodCalories = parseInt(req.body.calories);
+  const foodProtein = parseInt(req.body.protein);
+
+  if (foodName && !isNaN(foodCalories) && !isNaN(foodProtein)) {
+    nutrition.calories += foodCalories;
+    nutrition.protein += foodProtein;
+    nutrition.foods.push({
+      name: foodName,
+      calories: foodCalories,
+      protein: foodProtein
+    });
+    fs.writeFileSync(nutritionPath, JSON.stringify({ nutrition, food_list }, null, 2), 'utf8');
+  }
+  res.redirect('/nutrition');
+});
+
 
 // Start the server
 app.listen(PORT, () => {

@@ -83,6 +83,39 @@ p {
 }
 
 
+/* ---------------------------------------------------Navigation Styles------------------------------------------------- */
+
+.nav { 
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    margin-bottom: 40px; 
+}
+
+.nav a { 
+    padding: 10px 20px; 
+    background: linear-gradient(90deg, var(--primary) 60%, var(--secondary) 100%); 
+    color: var(--text);
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center; 
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    width: 30%;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
+    border: none;
+    cursor: pointer; 
+    transition: background 0.2s, transform 0.1s;
+}
+
+.nav a:hover { 
+    background: linear-gradient(90deg, var(--secondary) 60%, var(--primary) 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+
 /* ---------------------------------------------------Form Styles------------------------------------------------- */
 
 input, button {
@@ -277,39 +310,6 @@ label {
 }
 
 
-/* ---------------------------------------------------Navigation Styles------------------------------------------------- */
-
-.nav { 
-    display: flex; 
-    justify-content: center; 
-    gap: 20px; 
-    margin-bottom: 40px; 
-}
-
-.nav a { 
-    padding: 10px 20px; 
-    background: linear-gradient(90deg, var(--primary) 60%, var(--secondary) 100%); 
-    color: var(--text);
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center; 
-    border-radius: var(--border-radius);
-    margin: 10px 0;
-    width: 30%;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
-    border: none;
-    cursor: pointer; 
-    transition: background 0.2s, transform 0.1s;
-}
-
-.nav a:hover { 
-    background: linear-gradient(90deg, var(--secondary) 60%, var(--primary) 100%);
-    transform: translateY(-2px) scale(1.03);
-}
-
-
 /* ---------------------------------------------------Exercise Styles------------------------------------------------- */
 
 .exercise-list {
@@ -353,6 +353,53 @@ label {
 }
 
 
+/* ---------------------------------------------------Nutrition Styles---------------------------------------------- */
+
+.tracking-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.daily-intake-container {
+    width: 110%;
+}
+
+.daily-intake-container strong {
+    font-size: 1.3em;
+}
+
+.daily-intake-container span {
+    font-size: 1.4em;
+    color: #138a41;
+}
+
+.daily-intake-container h2 {
+    margin-bottom: 10px;
+}
+
+.daily-intake-container h3 {
+    margin: 10px 0;
+}
+
+#food-list {
+    width: 65%;
+}
+
+#food-list button {
+    width: 100%;
+}
+
+#food-list strong {
+    font-size: 1.2em;
+}
+
+#todays-foods {
+    width: 80%;
+}
+
+
 /* ---------------------------------------------------Media Queries------------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -372,10 +419,25 @@ label {
     input {
         width: 96%;
     }
+
+    .tracking-container input {
+        width: 70%;
+    }
+
+    .tracking-container button {
+        width: 76%;
+        margin-top: 20px;
+    }
+
+    .nav {
+        gap: 15px;
+        margin-bottom: 20px;
+    }
     
     .nav a {
         width: 100%;
         margin: 5px 0;
+        padding: 5px 10px;
     }
 
     .exercise {

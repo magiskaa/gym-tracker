@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <title>Gym Tracker</title>
+    <link rel="stylesheet" href="/styles.css?v=20250806">
+</head>
+<body>
+    <h1>Gym Tracker</h1>
+
+    <div class="nav">
+        <a href="/">💪 Workouts</a>
+        <a href="/calendar">📅 Calendar</a>
+        <a href="/exercises">🏋️ Exercises</a>
+        <a href="/nutrition">🍳 Nutrition</a>
+    </div>
+
+    <div class="tracking-container">
+        <div>
+            <h2>Custom</h2>
+            <div>
+                <form action="/add-custom" method="POST">
+                    <label>Calories:</label>
+                    <input type="number" name="calories" required>
+                    <label>Protein:</label>
+                    <input type="number" name="protein" required>
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+            <h2>Food list</h2>
+            <div>
+                <% if(food_list.length === 0) { %>
+                    <p>Food list is empty.</p>
+                <% } else { %>
+                    <% food_list.slice().forEach(food => { %>
+                        <div class="workout" id="food-list">
+                            <form action="add-food" method="POST">
+                                <strong><%= food.name %></strong>
+                                <input type="hidden" name="name" value="<%= food.name %>">
+                                <br>
+                                Calories: <%= food.calories %> kcal
+                                <input type="hidden" name="calories" value="<%= food.calories %>">
+                                <br>
+                                Protein: <%= food.protein %> g
+                                <input type="hidden" name="protein" value="<%= food.protein %>">
+                                <button type="submit">Add</button>
+                            </form>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        </div>
+        <div>
+            <div class="daily-intake-container">
+                <h2>Daily Goal</h2>
+                <div>
+                    <strong>Calories:</strong>&nbsp; <span><%= nutrition.goal_cal %> kcal</span>
+                    <br>
+                    <strong>Protein:</strong>&nbsp;&nbsp;&nbsp; <span><%= nutrition.goal_pro %> g</span>
+                </div>
+                <h2>Daily Intake</h2>
+                <div>
+                    <strong>Calories:</strong>&nbsp; <span><%= nutrition.calories %> kcal</span>
+                    <br>
+                    <strong>Protein:</strong>&nbsp;&nbsp;&nbsp; <span><%= nutrition.protein %> g</span>
+                    <h3>Remaining</h3>
+                    <strong>Calories:</strong>&nbsp; <span><%= nutrition.goal_cal - nutrition.calories %> kcal</span>
+                    <br>
+                    <strong>Protein:</strong>&nbsp;&nbsp;&nbsp; <span><%= nutrition.goal_pro - nutrition.protein %> g</span>
+                </div>
+            </div>
+            <h2>Today's foods</h2>
+            <div>
+                <% if(nutrition.foods.length === 0) { %>
+                    <p>No foods added today.</p>
+                <% } else { %>
+                    <% nutrition.foods.slice().forEach(food => { %>
+                        <div class="workout" id="todays-foods">
+                            <strong><%= food.name %></strong>
+                            <br>
+                            Calories: <%= food.calories %> kcal
+                            <br>
+                            Protein: <%= food.protein %> g
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts.js?v=20250806"></script>
+    <script type="application/json" id="nutrition-data"><%- JSON.stringify(nutrition) %></script>
+    <script type="application/json" id="foods-data"><%- JSON.stringify(food_list) %></script>
+</body>
+</html>

@@ -115,6 +115,14 @@ app.get('/workout', (req, res) => {
 });
 
 
+// Format date to DD.MM.YYYY
+function formatDate(d) {
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
 // =============================================== POST ============================================
 
 // Handle adding a new exercise
@@ -198,14 +206,14 @@ app.post('/end-workout', (req, res) => {
     const exercise = exercises.find(e => e.name === exerciseData.name);
     if (exercise) {
       exercise.journey.push({
-        date: new Date().toLocaleDateString(),
+        date: formatDate(new Date()),
         sets: exerciseData.sets,
         reps: exerciseData.reps / exerciseData.sets,
         weight: exerciseData.weight
       });
       // Update current stats
       exercise.current_stats = {
-        date: new Date().toLocaleDateString(),
+        date: formatDate(new Date()),
         sets: exerciseData.sets,
         reps: exerciseData.reps / exerciseData.sets,
         weight: exerciseData.weight
@@ -221,7 +229,7 @@ app.post('/end-workout', (req, res) => {
   const newWorkout = {
     name: workoutName,
     duration: workoutDuration,
-    date: new Date().toLocaleDateString(),
+    date: formatDate(new Date()),
     exercises: exercisesData
   };
 

@@ -74,6 +74,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ----------------------------Calendar Functionality----------------------------
 
+function formatDate(d) {
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
 let currentDate = new Date();
 
 function generateCalendar(year, month) {
@@ -130,7 +137,7 @@ function generateCalendar(year, month) {
         dayCell.appendChild(dayNumber);
         
         // Show workouts for this day
-        const dateStr = new Date(year, month, day).toLocaleDateString();
+        const dateStr = formatDate(new Date(year, month, day));
         const dayWorkouts = completed_workouts.filter(w => w.date === dateStr);
         
         dayWorkouts.forEach(workout => {

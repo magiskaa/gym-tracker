@@ -418,6 +418,10 @@ label {
 /* ---------------------------------------------------Media Queries------------------------------------------------- */
 
 @media (max-width: 900px) {
+    .section {
+        padding: 0px 15px 10px 15px;
+    }
+
     button {
         width: 100%;
     }
@@ -435,13 +439,20 @@ label {
         width: 96%;
     }
 
-    .tracking-container input {
-        width: 70%;
+    .daily-goal-intake-container {
+        gap: 10px;
     }
 
-    .tracking-container button {
-        width: 76%;
-        margin-top: 20px;
+    .daily-goal-intake-container strong {
+        font-size: 0.9em;
+    }
+
+    .daily-goal-intake-container span {
+        font-size: 1.1em;
+    }
+
+    .daily-goal-intake-container h2 {
+        font-size: 1.25em;
     }
 
     .nav {

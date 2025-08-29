@@ -40,6 +40,23 @@
 
 /* ---------------------------------------------------Body Styles------------------------------------------------- */
 
+.section {
+    background: var(--glass-bg);
+    margin: 20px auto;
+    padding: 0px 40px 25px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: left;
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(142,68,173,0.08);
+    transition: box-shadow 0.2s, border 0.2s;
+}
+
+.section:hover {
+    box-shadow: 0 12px 36px rgba(44, 62, 80, 0.22);
+    border: 1.5px solid var(--primary);
+}
+
 body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
     background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%);
@@ -150,7 +167,7 @@ button {
     box-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 button:hover {
@@ -170,7 +187,7 @@ input, select {
 }
 
 .form-group { 
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 label { 
@@ -355,36 +372,34 @@ label {
 
 /* ---------------------------------------------------Nutrition Styles---------------------------------------------- */
 
-.tracking-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 100%;
+.daily-goal-intake-container {
+    display: grid;
+    grid-template-columns: 1.15fr 1.15fr 1.15fr;
+    gap: 80px;
 }
 
-.daily-intake-container {
-    width: 110%;
-}
-
-.daily-intake-container strong {
+.daily-goal-intake-container strong {
     font-size: 1.3em;
 }
 
-.daily-intake-container span {
+.daily-goal-intake-container span {
     font-size: 1.4em;
     color: #138a41;
 }
 
-.daily-intake-container h2 {
+.daily-goal-intake-container h2 {
     margin-bottom: 10px;
 }
 
-.daily-intake-container h3 {
-    margin: 10px 0;
+.food-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 100%;
 }
 
 #food-list {
-    width: 65%;
+    width: auto;
 }
 
 #food-list button {
@@ -396,7 +411,7 @@ label {
 }
 
 #todays-foods {
-    width: 80%;
+    width: auto;
 }
 
 

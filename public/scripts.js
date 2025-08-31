@@ -1,4 +1,7 @@
 
+window.exercises = window.exercises || [];
+window.completed_workouts = window.completed_workouts || [];
+
 // ----------------------------Exercise Graphs----------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -6,13 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!exerciseDataElement) return;
     let exercises = [];
     try {
-        exercises = JSON.parse(exerciseDataElement.textContent);
+        window.exercises = JSON.parse(exerciseDataElement.textContent);
     } catch (e) {
         console.error('Error parsing exercise data:', e);
+        window.exercises = [];
         return;
     }
 
-    exercises.forEach(exercise => {
+    window.exercises.forEach(exercise => {
         const safeName = exercise.name.replace(/\s+/g, '-');
         const ctxReps = document.getElementById('chart-reps-' + safeName);
         const ctxWeight = document.getElementById('chart-weight-' + safeName);
@@ -169,7 +173,7 @@ function generateCalendar(year, month) {
         
         // Show workouts for this day
         const dateStr = formatDate(new Date(year, month, day));
-        const dayWorkouts = completed_workouts.filter(w => w.date === dateStr);
+        const dayWorkouts = window.completed_workouts.filter(w => w.date === dateStr);
         
         dayWorkouts.forEach(workout => {
             const workoutDiv = document.createElement('div');
@@ -192,10 +196,10 @@ function loadWorkoutData() {
     const workoutDataElement = document.getElementById('workout-data');
     if (workoutDataElement) {
         try {
-            completed_workouts = JSON.parse(workoutDataElement.textContent);
+            window.completed_workouts = JSON.parse(workoutDataElement.textContent);
         } catch (e) {
             console.error('Error parsing workout data:', e);
-            completed_workouts = [];
+            window.completed_workouts = [];
         }
     }
 }
@@ -205,10 +209,10 @@ function loadExerciseData() {
     const exerciseDataElement = document.getElementById('exercise-data');
     if (exerciseDataElement) {
         try {
-            exercises = JSON.parse(exerciseDataElement.textContent);
+            window.exercises = JSON.parse(exerciseDataElement.textContent);
         } catch (e) {
             console.error('Error parsing exercise data:', e);
-            exercises = [];
+            window.exercises = [];
         }
     }
 }
@@ -249,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create datalist for suggestions
     const datalist = document.createElement('datalist');
     datalist.id = 'exercise-suggestions';
-    exercises.forEach(ex => {
+    window.exercises.forEach(ex => {
         const option = document.createElement('option');
         option.value = ex.name;
         datalist.appendChild(option);

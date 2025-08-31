@@ -113,6 +113,9 @@ let currentDate = new Date();
 
 function generateCalendar(year, month) {
     const calendar = document.getElementById('calendar');
+    const monthTitle = document.getElementById('current-month');
+
+    if (!calendar || !monthTitle) return; // guard for non-calendar pages
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                       'July', 'August', 'September', 'October', 'November', 'December'];
     
@@ -210,8 +213,10 @@ function loadExerciseData() {
     }
 }
 
-// Initialize calendar when page loads
+// Initialize calendar when page loads and if calendar exists
 document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
     loadWorkoutData();
     loadExerciseData();
     generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
@@ -223,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let exerciseCount = 0;
     const exerciseFields = document.getElementById('exercise-fields');
     const addExerciseBtn = document.getElementById('add-exercise-btn');
+    if (!exerciseFields || !addExerciseBtn) return; // not on the workout page
 
     function createExerciseField(index) {
         const wrapper = document.createElement('div');
@@ -307,6 +313,13 @@ if (timerElem) {
 }
 
 
+// ----------------------------PWA Service Worker----------------------------
 
-
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.error('SW registration failed:', err);
+    });
+  });
+}
     

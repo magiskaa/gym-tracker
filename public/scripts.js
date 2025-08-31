@@ -1,3 +1,4 @@
+
 // ----------------------------Exercise Graphs----------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -71,6 +72,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const list = document.getElementById('exercise-list');
+    const filterButtons = document.getElementById('category-sort');
+    if (!list || !filterButtons) return;
+
+    const ex_cards = Array.from(list.querySelectorAll('.exercise'));
+
+    function filterByCategory(category) {
+        ex_cards.forEach(card => {
+            const isMatch = category === 'All' || card.dataset.category === category;
+            card.style.display = isMatch ? '' : 'none';
+        });
+    };
+
+    filterButtons.addEventListener('click', (e) => {
+        const button = e.target.closest('button[data-category]');
+        if (!button) return;
+
+        const category = button.dataset.category;
+        filterByCategory(category);
+
+        filterButtons.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === button));
+    });
+
+    const defaultButton = filterButtons.querySelector('button[data-category="All"]');
+    if (defaultButton) defaultButton.click();
+});
 
 // ----------------------------Calendar Functionality----------------------------
 
@@ -223,8 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(datalist);
 
     for (let i = 0; i < 3; i++) {
-    createExerciseField(i);
-    exerciseCount++;
+        createExerciseField(i);
+        exerciseCount++;
     }
 
     // Add more fields on button click

@@ -329,6 +329,17 @@ label {
 
 /* ---------------------------------------------------Exercise Styles------------------------------------------------- */
 
+.category-sort button {
+    width: 18%;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.category-sort .active {
+    background: #333;
+}
+
 .exercise-list {
     margin: 20px 0;
     padding: 15px;
@@ -464,6 +475,12 @@ label {
         width: 100%;
         margin: 5px 0;
         padding: 5px 10px;
+    }
+
+    .category-sort button {
+        width: 23%;
+        margin-right: 5px;
+        margin-bottom: 10px;
     }
 
     .exercise {

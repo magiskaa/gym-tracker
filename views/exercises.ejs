@@ -32,12 +32,20 @@
 
     <h2>🏋️ Exercises</h2>
 
+    <% const categories = [...new Set(exercises.map(e => e.category).filter(Boolean))]; %>
+    <div class="category-sort" id="category-sort">
+        <button type="button" data-category="All">All</button> 
+        <% categories.forEach(category => { %>
+            <button type="button" data-category="<%= category %>"><%= category %></button>
+        <% }); %>
+    </div>
+
     <div id="exercise-list">
         <% if (exercises.length === 0) { %>
             <p>No exercises added yet. Add your first exercise above!</p>
         <% } else { %>
             <% exercises.forEach(exercise => { %>
-                <div class="exercise"">
+                <div class="exercise" data-category="<%= exercise.category %>" data-name="<%= exercise.name %>">
                     <div class="exercise-stats-container">
                         <strong><%= exercise.name %></strong>
                         <br>

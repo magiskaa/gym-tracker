@@ -2,7 +2,7 @@
 window.exercises = window.exercises || [];
 window.completed_workouts = window.completed_workouts || [];
 
-// ----------------------------Exercise Graphs----------------------------
+// ----------------------------Exercises Functionality----------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
     const exerciseDataElement = document.getElementById('exercise-data');
@@ -315,6 +315,41 @@ if (timerElem) {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/end-workout"]');
+    if (!form) return;
+
+    form.addEventListener('click', (e) => {
+        const button = e.target.closest('button[data-name]');
+        if (!button) return;
+
+        const entry = button.closest('.workout-exercise-entry');
+        if (!entry) return;
+
+        const exName = button.dataset.name || 'this exercise';
+        if (!confirm(`Are you sure you want to remove "${exName}"? Any entered values for it will be lost.`)) return;
+
+        entry.remove();
+
+        reindexWorkoutEntries(form);
+    });
+
+    function reindexWorkoutEntries(formE1) {
+        const entries = Array.from(formE1.querySelectorAll('.workout-exercise-entry'));
+        entries.forEach((entry, i) => {
+            const sets = entry.querySelector('input[name^="sets-"]');
+            const reps = entry.querySelector('input[name^="reps-"]');
+            const weight = entry.querySelector('input[name^="weight-"]');
+            const hidden = entry.querySelector('input[name^="exercise-"]');
+
+            if (sets) sets.name = `sets-${i}`;
+            if (reps) reps.name = `reps-${i}`;
+            if (weight) weight.name = `weight-${i}`;
+            if (hidden) hidden.name = `exercise-${i}`;
+        });
+    }
+});
 
 
 // ----------------------------PWA Service Worker----------------------------

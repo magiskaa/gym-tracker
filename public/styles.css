@@ -222,6 +222,30 @@ label {
     width: 100%;
 }
 
+.start-workout-button {
+    background: #1ea657;
+    color: white;
+}
+
+.start-workout-button:hover {
+    background: #138a41;
+    color: white;
+}
+
+
+/* ---------------------------------------------------Workout in progress Styles------------------------------------------------- */
+
+#delete-workout-button {
+    background: #cb0c0c;
+    color: var(--text);
+    margin-top: 20px;
+}
+
+#delete-workout-button:hover {
+    background: #a00909;
+    color: var(--text);
+}
+
 #timer {
     font-size: 2em;
     color: #b75adf;
@@ -239,29 +263,30 @@ label {
     margin-bottom: 10px;
 }
 
+#workout-add-exercise-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background: #138a41;
+}
+
 #end-workout-button {
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 
-#delete-workout-button {
+#exercise-name-delete-grid {
+    display: grid;
+    grid-template-columns: 0.75fr 1.25fr;
+    margin-top: 30px;
+}
+
+#delete-exercise-button {
+    width: 20%;
+    font-size: 0.9em;
     background: #cb0c0c;
-    color: var(--text);
-    margin-top: 20px;
-}
-
-#delete-workout-button:hover {
-    background: #a00909;
-    color: var(--text);
-}
-
-.start-workout-button {
-    background: #1ea657;
-    color: white;
-}
-
-.start-workout-button:hover {
-    background: #138a41;
-    color: white;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    padding: 10px;
 }
 
 

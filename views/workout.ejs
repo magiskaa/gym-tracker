@@ -14,25 +14,31 @@
     <h1>Gym Tracker</h1>
             
     <h2>Workout in Progress</h2>
-    <div id="timer">00:00:00</div>
-    <form action="/end-workout" method="POST">
-        <% submittedExercises.forEach((ex, i) => { %>
-            <div class="workout-exercise-entry">
-                <strong id="workout-exercise-name"><%= ex %>:</strong>
-                <br>
-                <input type="number" name="sets-<%= i %>" placeholder="Sets" required>
-                <input type="number" name="reps-<%= i %>" placeholder="Reps" required>
-                <input type="number" name="weight-<%= i %>" placeholder="Weight (kg)" step="0.5">
-                <input type="hidden" name="exercise-<%= i %>" value="<%= ex %>">
-                <input type="hidden" name="duration" id="duration-field"> 
-            </div>
-        <% }) %>
-        <button type="submit" id="end-workout-button">End Workout</button>
-    </form>
-
-    <form action="/delete-workout" method="POST">
-        <button type="submit" id="delete-workout-button">Delete Workout</button>
-    </form>
+    <div class="section">
+        <div id="timer">00:00:00</div>
+        <form action="/end-workout" method="POST">
+            <% submittedExercises.forEach((ex, i) => { %>
+                <div class="workout-exercise-entry">
+                    <div id="exercise-name-delete-grid">
+                        <strong id="workout-exercise-name"><%= ex %>:</strong>
+                        <button type="button" id="delete-exercise-button" data-name="<%= ex %>">Delete</button>
+                    </div>
+                    <br>
+                    <input type="number" name="sets-<%= i %>" placeholder="Sets" required>
+                    <input type="number" name="reps-<%= i %>" placeholder="Reps" required>
+                    <input type="number" name="weight-<%= i %>" placeholder="Weight (kg)" step="0.5">
+                    <input type="hidden" name="exercise-<%= i %>" value="<%= ex %>">
+                </div>
+            <% }) %>
+            <input type="hidden" name="duration" id="duration-field"> 
+            <button type="button" id="workout-add-exercise-button">Add Exercise</button>
+            <br>
+            <button type="submit" id="end-workout-button">End Workout</button>
+        </form>
+        <form action="/delete-workout" method="POST">
+            <button type="submit" id="delete-workout-button">Delete Workout</button>
+        </form>
+    </div>
         
     <script src="/scripts.js?v=20250901"></script>
     <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>

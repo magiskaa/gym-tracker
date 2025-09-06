@@ -231,22 +231,32 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     let exerciseCount = 0;
     const exerciseFields = document.getElementById('exercise-fields');
-    const addExerciseBtn = document.getElementById('add-exercise-btn');
-    if (!exerciseFields || !addExerciseBtn) return; // not on the workout page
+    const addExerciseButton = document.getElementById('add-exercise-button');
+    const deleteExerciseButton = document.getElementById('delete-exercise-button');
+    if (!exerciseFields || !addExerciseButton || !deleteExerciseButton) return; // not on the workout page
 
     function createExerciseField(index) {
         const wrapper = document.createElement('div');
 
-        const label = document.createElement('label');
-        label.textContent = `Exercise ${index + 1}:`;
+        const nameSelect = document.createElement('select');
+        nameSelect.name = `exercise-${index}`;
+        nameSelect.required = true;
 
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.name = `exercise-${index}`;
-        nameInput.setAttribute('list', 'exercise-suggestions');
-        nameInput.required = true;
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = `Select Exercise ${index + 1}`;
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        nameSelect.appendChild(defaultOption);
 
-        wrapper.append(label, nameInput);
+        window.exercises.forEach(ex => {
+            const option = document.createElement('option');
+            option.value = ex.name;
+            option.textContent = ex.name;
+            nameSelect.appendChild(option);
+        });
+
+        wrapper.append(nameSelect);
         exerciseFields.appendChild(wrapper);
     }
 
@@ -266,10 +276,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add more fields on button click
-    addExerciseBtn.addEventListener('click', () => {
+    addExerciseButton.addEventListener('click', () => {
         createExerciseField(exerciseCount);
         exerciseCount++;
     });
+
+    // Delete an exercise field on button click
+    deleteExerciseButton.addEventListener('click', () => {
+        if (exerciseCount > 1) {
+            const lastChild = exerciseFields.lastElementChild;
+            if (lastChild) {
+                exerciseFields.removeChild(lastChild);
+                exerciseCount--;
+            }
+        } else {
+            alert('At least one exercise is required.')
+        }
+    })
 });
 
 
@@ -320,7 +343,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[action="/end-workout"]');
     if (!form) return;
 
-    form.addEventListener('click', (e) => {
+    form.addEventListener('click', async (e) => {
+        console.log('Delete exercise button pressed');
         const button = e.target.closest('button[data-name]');
         if (!button) return;
 
@@ -333,6 +357,27 @@ document.addEventListener('DOMContentLoaded', function() {
         entry.remove();
 
         reindexWorkoutEntries(form);
+
+        const currentExercises = Array.from(form.querySelectorAll('input[name^="exercise-"]'))
+            .map(input => input.value)
+            .filter(value => value);
+        console.log('Current exercises: ', currentExercises);
+
+        try {
+            console.log('Sending fetch');
+            const response = await fetch('/update-exercises', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ exercises: currentExercises })
+            });
+            if (!response.ok) {
+                console.error('Failed to update exercises');
+            } else {
+                console.log('Update ok');
+            }
+        } catch (error) {
+            console.error('Error updating exercises: ', error);
+        }
     });
 
     function reindexWorkoutEntries(formE1) {

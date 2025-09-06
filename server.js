@@ -8,6 +8,8 @@ const PORT = 4000;
 // Set EJS as our template engine
 app.set('view engine', 'ejs');
 
+app.set('trust proxy', true);
+
 // Serve static files from public folder
 app.use(express.static('public', {
   setHeaders: function (res, path, stat) {
@@ -240,6 +242,16 @@ app.post('/end-workout', (req, res) => {
   fs.writeFileSync(exercisesPath, JSON.stringify({ exercises }, null, 2), 'utf8');
 
   res.redirect('/calendar');
+});
+
+app.post('/update-exercises', express.json(), (req, res) => {
+  const { exercises: updatedExercises } = req.body;
+  if (Array.isArray(updatedExercises)) {
+    submittedExercises = updatedExercises;
+    res.status(200).send('Exercises updated');
+  } else {
+    res.status(400).send('Invalid exercises data');
+  }
 });
 
 // Handle deleting workout in progress

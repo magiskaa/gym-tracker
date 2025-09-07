@@ -130,11 +130,6 @@ function formatDate(d) {
 // Handle adding a new exercise
 app.post('/add-exercise', (req, res) => {
   const { exercise, category } = req.body;
-  
-  const validCategories = ['Rinta', 'Selkä', 'Jalat', 'Olkapäät', 'Hauis', 'Ojentajat'];
-  if (!validCategories.includes(category)) {
-    return res.status(400).send('Invalid category. Please select a valid category.');
-  }
 
   const newExercise = {
     name: exercise,

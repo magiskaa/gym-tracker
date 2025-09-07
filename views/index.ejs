@@ -48,14 +48,16 @@
             <% }); %>
         <% } %>
     </div>
-            
-    <h2>Make a Workout</h2>
-    <form id="workout-form" action="/start-workout" method="POST">
-        <div id="exercise-fields"></div>
-        <button type="button" id="add-exercise-button">Add Exercise</button><br>
-        <button type="button" id="delete-exercise-button">Delete Exercise</button><br>
-        <button type="submit" class="start-workout-button">Start Workout</button>
-    </form>
+        
+    <div class="section">
+        <h2>Make a Workout</h2>
+        <form id="workout-form" action="/start-workout" method="POST">
+            <div id="exercise-fields"></div>
+            <button type="button" id="add-exercise-button">Add Exercise</button><br>
+            <button type="button" id="delete-exercise-button">Delete Exercise</button><br>
+            <button type="submit" id="start-workout-button">Start Workout</button>
+        </form>
+    </div>
     
     <h2>Your Workouts</h2>
     <% if (workouts.length === 0) { %>

@@ -43,7 +43,7 @@
 .section {
     background: var(--glass-bg);
     margin: 20px auto;
-    padding: 0px 40px 25px 40px;
+    padding: 0px 20px 15px 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     text-align: left;
@@ -144,7 +144,8 @@ input, button, select {
     color: var(--text);
     transition: border 0.2s, background 0.2s, color 0.2s;
     cursor: pointer; 
-    padding: 10px 20px; 
+    padding: 10px 20px;
+    width: 40%;
 }
 
 /* Ensure inputs don't cause zoom on mobile */
@@ -162,7 +163,6 @@ button {
     color: #fff;
     border: none;
     font-weight: bold;
-    width: 27.5%;
     letter-spacing: 1px;
     box-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
     cursor: pointer;
@@ -181,9 +181,13 @@ input:focus {
     background: var(--bg-alt);
 }
 
-input, select { 
+input { 
     padding: 8px; 
-    width: 200px; 
+    width: 37.5%;
+}
+
+select {
+    padding: 8px;
 }
 
 .form-group { 
@@ -222,24 +226,23 @@ label {
     width: 100%;
 }
 
-.start-workout-button {
-    background: #1ea657;
-    color: white;
-}
-
-.start-workout-button:hover {
-    background: #138a41;
-    color: white;
-}
-
 #add-exercise-button {
+    background: #1ea657;
     margin-top: 25px;
     margin-bottom: 10px;
+}
+
+#add-exercise-button:hover {
+    background: #138a41;
 }
 
 #delete-exercise-button {
     background: #cb0c0c;
     margin-bottom: 10px;
+}
+
+#delete-exercise-button:hover {
+    background: #a50707;
 }
 
 
@@ -354,7 +357,7 @@ label {
 .workout-dot {
     background: #28a745;
     color: white;
-    font-size: 11px;
+    font-size: 10px;
     padding: 1px 3px;
     border-radius: 2px;
     margin: 1px 0;
@@ -468,10 +471,16 @@ label {
         padding: 0px 15px 10px 15px;
     }
 
-    button {
+    button, select {
         width: 100%;
     }
 
+    input {
+        width: 97.5%;
+    }
+
+
+    /* ----------------------------Workout Styles---------------------------- */
     .workout-button-container {
         display: flex;
         justify-content: flex-end;
@@ -481,10 +490,18 @@ label {
         width: 70%;     
     }
 
-    input {
-        width: 96%;
+    #add-exercise-button {
+        margin-top: 30px;
+        margin-bottom: 20px;
     }
 
+    #delete-exercise-button {
+        background: #cb0c0c;
+        margin-bottom: 20px;
+    }
+
+
+    /* ----------------------------Nutrition Styles---------------------------- */
     .daily-goal-intake-container {
         gap: 10px;
     }
@@ -501,6 +518,8 @@ label {
         font-size: 1.25em;
     }
 
+
+    /* ----------------------------Nav Styles---------------------------- */
     .nav {
         gap: 15px;
         margin-bottom: 20px;
@@ -512,6 +531,8 @@ label {
         padding: 5px 10px;
     }
 
+
+    /* ----------------------------Exercise Styles---------------------------- */
     .category-sort button {
         width: 23%;
         margin-right: 5px;
@@ -523,6 +544,8 @@ label {
         align-items: stretch;
     }
 
+
+    /* ----------------------------Calendar Styles---------------------------- */
     .calendar-container {
         padding: 10px;
     }

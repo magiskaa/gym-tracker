@@ -20,71 +20,74 @@
         <a href="/nutrition">🍳 Nutrition</a>
     </div>
 
-    <h2>Add a New Exercise</h2>
-    
-    <form action="/add-exercise" method="POST">
-        <div class="form-group">
-            <label>Exercise Name:</label>
-            <input type="text" name="exercise" required>
-        </div>
-        <div class="form-group">
-            <label>Category:</label>
-            <input type="text" name="category" required>
-        </div>
-        <button type="submit">Add Exercise</button>
-    </form>
-
-    <h2>🏋️ Exercises</h2>
-
-    <% const categories = [...new Set(exercises.map(e => e.category).filter(Boolean))]; %>
-    <div class="category-sort" id="category-sort">
-        <button type="button" data-category="All">All</button> 
-        <% categories.forEach(category => { %>
-            <button type="button" data-category="<%= category %>"><%= category %></button>
-        <% }); %>
+    <div class="section">
+        <h2>Add a New Exercise</h2>
+        <form action="/add-exercise" method="POST">
+            <div class="form-group">
+                <label>Exercise Name:</label>
+                <input type="text" name="exercise" required>
+            </div>
+            <div class="form-group">
+                <label>Category:</label>
+                <select id="category-select" name="category" required></select>
+            </div>
+            <button type="submit">Add Exercise</button>
+        </form>
     </div>
 
-    <div id="exercise-list">
-        <% if (exercises.length === 0) { %>
-            <p>No exercises added yet. Add your first exercise above!</p>
-        <% } else { %>
-            <% exercises.forEach(exercise => { %>
-                <div class="exercise" data-category="<%= exercise.category %>" data-name="<%= exercise.name %>">
-                    <div class="exercise-stats-container">
-                        <strong><%= exercise.name %></strong>
-                        <br>
-                        <strong><%= exercise.category %></strong>
-                        <% if (exercise.current_stats) { %>
+    <div class="section">
+        <h2>🏋️ Exercises</h2>
+
+        <% const categories = [...new Set(exercises.map(e => e.category).filter(Boolean))]; %>
+        <div class="category-sort" id="category-sort">
+            <button type="button" data-category="All">All</button> 
+            <% categories.forEach(category => { %>
+                <button type="button" data-category="<%= category %>"><%= category %></button>
+            <% }); %>
+        </div>
+
+        <div id="exercise-list">
+            <% if (exercises.length === 0) { %>
+                <p>No exercises added yet. Add your first exercise above!</p>
+            <% } else { %>
+                <% exercises.forEach(exercise => { %>
+                    <div class="exercise" data-category="<%= exercise.category %>" data-name="<%= exercise.name %>">
+                        <div class="exercise-stats-container">
+                            <strong><%= exercise.name %></strong>
                             <br>
-                            Current Stats:
-                            <br>
-                            Sets: <strong><%= exercise.current_stats.sets %></strong> |
-                            Reps: <strong><%= exercise.current_stats.reps.toFixed(1) %></strong> |
-                            Weight: <strong><%= exercise.current_stats.weight %>kg</strong>
-                            <% if (exercise.current_stats.date) { %>
+                            <strong><%= exercise.category %></strong>
+                            <% if (exercise.current_stats) { %>
                                 <br>
-                                <small>Last updated: <%= exercise.current_stats.date %></small>
+                                Current Stats:
+                                <br>
+                                Sets: <strong><%= exercise.current_stats.sets %></strong> |
+                                Reps: <strong><%= exercise.current_stats.reps.toFixed(1) %></strong> |
+                                Weight: <strong><%= exercise.current_stats.weight %>kg</strong>
+                                <% if (exercise.current_stats.date) { %>
+                                    <br>
+                                    <small>Last updated: <%= exercise.current_stats.date %></small>
+                                <% } %>
+                            <% } else { %>
+                                <br>
+                                <small>No current stats available</small>
                             <% } %>
-                        <% } else { %>
-                            <br>
-                            <small>No current stats available</small>
+                        </div>
+                        <% if (exercise.current_stats) { %>
+                        <div class="exercise-chart-container">
+                            <div class="exercise-chart">
+                                <canvas id="chart-reps-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
+                                <div>Reps / Set</div>
+                            </div>
+                            <div class="exercise-chart">
+                                <canvas id="chart-weight-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
+                                <div>Weight (kg)</div>
+                            </div>
+                        </div>
                         <% } %>
                     </div>
-                    <% if (exercise.current_stats) { %>
-                    <div class="exercise-chart-container">
-                        <div class="exercise-chart">
-                            <canvas id="chart-reps-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
-                            <div>Reps / Set</div>
-                        </div>
-                        <div class="exercise-chart">
-                            <canvas id="chart-weight-<%= exercise.name.replace(/\s+/g, '-') %>"></canvas>
-                            <div>Weight (kg)</div>
-                        </div>
-                    </div>
-                    <% } %>
-                </div>
-            <% }); %>
-        <% } %>
+                <% }); %>
+            <% } %>
+        </div>
     </div>
         
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

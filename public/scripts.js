@@ -104,6 +104,33 @@ document.addEventListener('DOMContentLoaded', function() {
     if (defaultButton) defaultButton.click();
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const categorySelect = document.getElementById('category-select');
+
+    if (!categorySelect) return;
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select Category';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    categorySelect.appendChild(defaultOption);
+
+    if (!window.exercises) return;
+
+    let categories = new Set();
+    window.exercises.forEach(ex => {
+        if (!categories.has(ex.category)) {
+            categories.add(ex.category);
+            const option = document.createElement('option');
+            option.value = ex.category;
+            option.textContent = ex.category;
+            categorySelect.appendChild(option);
+        }
+    });
+});
+
+
 // ----------------------------Calendar Functionality----------------------------
 
 function formatDate(d) {

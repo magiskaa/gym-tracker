@@ -90,7 +90,7 @@ loadNutrition();
 
 // Format date to DD.MM.YYYY
 function formatDate(date = new Date()) {
-  d = date.getDay();
+  d = date.getDate();
   m = date.getMonth() + 1;
   y = date.getFullYear();
   return `${d}.${m}.${y}`;
@@ -115,7 +115,7 @@ function nutritionReset() {
 function getNextResetTime() {
   const now = new Date();
   const next = new Date(now);
-  next.setHours(5, 0, 0, 0);
+  next.setHours(7, 0, 0, 0);
   
   if (now > next) {
     next.setDate(next.getDate() + 1);

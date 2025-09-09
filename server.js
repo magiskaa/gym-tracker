@@ -88,6 +88,53 @@ function loadNutrition() {
 // Load nutrition when server starts
 loadNutrition();
 
+// Format date to DD.MM.YYYY
+function formatDate(date = new Date()) {
+  d = date.getDay();
+  m = date.getMonth() + 1;
+  y = date.getFullYear();
+  return `${d}.${m}.${y}`;
+}
+
+// Reset nutrition stats
+function nutritionReset() {
+  try {
+    nutrition["last_reset"] = formatDate(new Date());
+    nutrition["calories"] = 0;
+    nutrition["protein"] = 0;
+    nutrition["foods"] = [];
+
+    fs.writeFileSync(nutritionPath, JSON.stringify({ nutrition, food_list }, null, 2), 'utf8');
+
+  } catch (e) {
+    console.error("Error resetting nutrition: ", e);
+  }
+}
+
+// Get the time for next reset
+function getNextResetTime() {
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(5, 0, 0, 0);
+  
+  if (now > next) {
+    next.setDate(next.getDate() + 1);
+  }
+  return next;
+}
+
+// Schedule the nutrition reset
+function scheduleNutritionReset() {
+  const now = new Date();
+  const nextResetTime = getNextResetTime();
+  const waitTillNextReset = nextResetTime.getTime() - now.getTime();
+
+  setTimeout(() => {
+    nutritionReset();
+    scheduleNutritionReset();
+  }, waitTillNextReset);
+}
+scheduleNutritionReset();
 
 // =============================================== GET ============================================
 
@@ -116,14 +163,6 @@ app.get('/workout', (req, res) => {
   res.render('workout', { workouts: completed_workouts, exercises: exercises, submittedExercises: submittedExercises });
 });
 
-
-// Format date to DD.MM.YYYY
-function formatDate(d) {
-  const day = d.getDate();
-  const month = d.getMonth() + 1;
-  const year = d.getFullYear();
-  return `${day}.${month}.${year}`;
-}
 
 // =============================================== POST ============================================
 

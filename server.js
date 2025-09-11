@@ -11,16 +11,7 @@ app.set('view engine', 'ejs');
 app.set('trust proxy', true);
 
 // Serve static files from public folder
-app.use(express.static('public', {
-  setHeaders: function (res, path, stat) {
-    // Prevent caching of CSS and JS files
-    if (path.endsWith('.css') || path.endsWith('.js')) {
-      res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-      res.set('Pragma', 'no-cache');
-      res.set('Expires', '0');
-    }
-  }
-}));
+app.use(express.static('public'));
 
 // Parse form data
 app.use(express.urlencoded({ extended: true }));
@@ -90,9 +81,9 @@ loadNutrition();
 
 // Format date to DD.MM.YYYY
 function formatDate(date = new Date()) {
-  d = date.getDate();
-  m = date.getMonth() + 1;
-  y = date.getFullYear();
+  const d = date.getDate();
+  const m = date.getMonth() + 1;
+  const y = date.getFullYear();
   return `${d}.${m}.${y}`;
 }
 
@@ -151,18 +142,21 @@ app.get('/calendar', (req, res) => {
 // Exercises route
 app.get('/exercises', (req, res) => {
   res.render('exercises' , { workouts: completed_workouts, exercises: exercises });
-})
+});
 
 // Nutrition route
 app.get('/nutrition', (req, res) => {
   res.render('nutrition' , { nutrition: nutrition, food_list: food_list });
-})
+});
 
 // Workout route
 app.get('/workout', (req, res) => {
   res.render('workout', { workouts: completed_workouts, exercises: exercises, submittedExercises: submittedExercises });
 });
 
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
 // =============================================== POST ============================================
 

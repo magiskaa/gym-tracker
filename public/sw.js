@@ -1,9 +1,6 @@
-const CACHE_NAME = 'gym-tracker-v1';
+const CACHE_NAME = 'gym-tracker-v2';
 
 const ASSETS = [
-  '/',                 // shell (server renders page)
-  '/styles.css',
-  '/scripts.js',
   '/offline.html',
   '/icons/icon-192.png',
   '/icons/icon-512.png',

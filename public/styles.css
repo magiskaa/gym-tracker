@@ -464,6 +464,35 @@ label {
 }
 
 
+/* ---------------------------------------------------Login Styles------------------------------------------------- */
+
+#login-body {
+    height: 700px;
+}
+
+#login-header {
+    margin-top: 200px;
+}
+
+.login-container {
+    text-align: center;
+    padding: 30px 20px 0 20px;
+}
+
+.login-container button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.login-container input {
+    width: 95%;
+}
+
+#login-section {
+    width: 400px;
+}
+
+
 /* ---------------------------------------------------Media Queries------------------------------------------------- */
 
 @media (max-width: 900px) {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
     <title>Gym Tracker</title>
-    <link rel="stylesheet" href="/styles.css?v=20250806">
+    <link rel="stylesheet" href="/styles.css?v=20250911">
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="/manifest.webmanifest">
@@ -25,7 +25,7 @@
         <form action="/add-exercise" method="POST">
             <div class="form-group">
                 <label>Exercise Name:</label>
-                <input type="text" name="exercise" required>
+                <input type="text" name="exercise" placeholder="Exercise" required>
             </div>
             <div class="form-group">
                 <label>Category:</label>
@@ -91,7 +91,7 @@
     </div>
         
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/scripts.js?v=20250901"></script>
+    <script src="/scripts.js?v=20250911"></script>
     <script type="application/json" id="workout-data"><%- JSON.stringify(workouts) %></script>
     <script type="application/json" id="exercise-data"><%- JSON.stringify(exercises) %></script>
 </body>

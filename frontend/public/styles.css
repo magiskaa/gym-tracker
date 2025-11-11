@@ -1,3 +1,145 @@
+
+/*  ----------------------------------------------------------
+ *  |                       VARIABLES                        |
+ *  ----------------------------------------------------------
+ */
+:root {
+    --bg-dark: hsl(0, 0%, 10%);
+    --bg: hsl(0, 0%, 17%);
+    --bg-light: hsl(0, 0%, 23%);
+    --bg-lighter: hsl(0, 0%, 35%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --primary: hsl(117, 66%, 45%);
+    --primary-dimmer: hsla(117, 80%, 60%, 0.5);
+    --secondary: hsl(20, 71%, 53%);
+    --text: hsl(0, 0%, 95%);
+    --text-muted: hsl(0, 0%, 85%);
+    --border-radius: 20px;
+
+    --shadow-s:
+    inset 0 1px 2px #ffffff30,
+    0 1px 2px #00000030,
+    0 1px 2px #00000015;
+    --shadow-m:
+    inset 0 1px 2px #ffffff50,
+    0 2px 4px #00000030,
+    0 4px 6px #00000015;
+    --shadow-l:
+    inset 0 2px 4px #ffffff70,
+    0 4px 6px #00000030,
+    0 6px 10px #00000015;
+    --shadow-xl:
+    inset 0 2px 4px #ffffff70,
+    0 6px 10px #00000020,
+    0 10px 16px #00000010;
+}
+
+
+/*  ----------------------------------------------------------
+ *  |                        GENERAL                         |
+ *  ----------------------------------------------------------
+ */
 body {
-    background: #323232;
+    background: var(--bg-dark);
+    color: var(--text);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+}
+
+button, a {
+    background: var(--bg-light);
+    box-shadow: var(--shadow-m);
+    color: var(--text);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+button:hover,
+a:hover {
+    box-shadow: var(--shadow-l);
+    transform: scale(1.03, 1.03);
+}
+
+
+/*  ----------------------------------------------------------
+ *  |                      HEADER DIV                        |
+ *  ----------------------------------------------------------
+ */
+.header-div {
+    background: linear-gradient(var(--primary), var(--primary-dimmer));
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    height: 8rem;
+
+    .nav-div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        width: fit-content;
+        gap: 1rem;
+        
+        img {
+            width: 130px;
+            margin-right: 2rem;
+        }
+        a {
+            background: var(--glass-bg);
+            border-radius: 30px;
+            text-decoration: none;
+        }
+    }
+}
+
+
+/*  ----------------------------------------------------------
+ *  |                    PRESET WORKOUTS                     |
+ *  ----------------------------------------------------------
+ */
+#preset-workouts-div {
+    background: var(--bg);
+    box-shadow: var(--shadow-s);
+    border-radius: 40px;
+    width: 50vw;
+    margin: 2rem auto;
+    padding: 2rem;
+
+
+    .preset-workout {
+        background: var(--bg-light);
+        box-shadow: var(--shadow-s);
+        border-radius: var(--border-radius);
+        margin: 0;
+        padding: 1rem;
+
+        h3 {
+            color: var(--text);
+        }
+        p {
+            color: var(--text-muted);
+        }
+        .start-workout-button {
+            background: var(--bg-dark);
+            color: var(--primary);
+            border: solid 1px var(--primary);
+        }
+        .edit-workout-button {
+            background: var(--bg-dark);
+            color: var(--secondary);
+            border: solid 1px var(--secondary);
+        }
+    }
+    .preset-workout:hover {
+        box-shadow: var(--shadow-m);
+    }
+    .preset-workout:not(:last-of-type) {
+        margin-bottom: 2rem;
+    }
 }

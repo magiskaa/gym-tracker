@@ -34,7 +34,15 @@ function loadData() {
 loadData();
 
 app.get("/", (req, res) => {
-    res.render("workouts", { presetWorkouts: presetWorkouts, completedWorkouts: completedWorkouts, exercises: exercises });
+    res.render("workouts", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+});
+
+app.get("/exercises", (req, res) => {
+    res.render("exercises", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+});
+
+app.get("/calendar", (req, res) => {
+    res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
 });
 
 app.listen(PORT, () => {

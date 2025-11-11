@@ -17,20 +17,6 @@
             <a href="/calendar">Calendar</a>
         </div>
     </div>
-    <div id="preset-workouts-div">
-        <% presetWorkoutsData.forEach(workout => { %>
-            <div class="preset-workout">
-                <h3><%= workout.name; %></h3>
-                <% for (const [index, exercise] of workout.exercises.entries()) { %>
-                    <% const ex = exercisesData[exercise]; %>
-                    <p><%= `${index+1}. ` + ex.name; %></p>
-                <% } %>
-                <button class="start-workout-button">Start workout</button>
-                <button class="edit-workout-button">Edit workout</button>
-            </div>
-            <%  %>
-        <% }); %>
-    </div>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>
     <script type="application/json" id="exercises-data"><%- JSON.stringify(exercisesData) %></script>

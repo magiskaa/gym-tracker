@@ -59,6 +59,7 @@ button, a {
     cursor: pointer;
     font-size: 1.1em;
     font-weight: 700;
+    text-decoration: none;
 }
 
 button:hover,
@@ -93,7 +94,6 @@ a:hover {
         a {
             background: var(--glass-bg);
             border-radius: 30px;
-            text-decoration: none;
         }
     }
 }
@@ -104,42 +104,87 @@ a:hover {
  *  ----------------------------------------------------------
  */
 #preset-workouts-div {
-    background: var(--bg);
-    box-shadow: var(--shadow-s);
-    border-radius: 40px;
-    width: 50vw;
+    display: flex;
+    width: calc(100% - 2rem);
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
     margin: 2rem auto;
-    padding: 2rem;
-
 
     .preset-workout {
-        background: var(--bg-light);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        background: var(--bg);
         box-shadow: var(--shadow-s);
         border-radius: var(--border-radius);
-        margin: 0;
+        width: calc(50% - 0.5rem);
+        box-sizing: border-box;
+        flex-shrink: 0;
+        scroll-snap-align: center;
         padding: 1rem;
 
         h3 {
             color: var(--text);
+            margin: 0 auto;
         }
         p {
             color: var(--text-muted);
         }
-        .start-workout-button {
-            background: var(--bg-dark);
-            color: var(--primary);
-            border: solid 1px var(--primary);
-        }
-        .edit-workout-button {
-            background: var(--bg-dark);
-            color: var(--secondary);
-            border: solid 1px var(--secondary);
+        .preset-workout-buttons {
+            display: flex;
+            gap: 1rem;
+            
+            .start-workout-a {
+                background: var(--bg-dark);
+                color: var(--primary);
+                border: solid 1px var(--primary);
+            }
+            .edit-workout-button {
+                background: var(--bg-dark);
+                color: var(--secondary);
+                border: solid 1px var(--secondary);
+            }
         }
     }
     .preset-workout:hover {
         box-shadow: var(--shadow-m);
     }
-    .preset-workout:not(:last-of-type) {
-        margin-bottom: 2rem;
+}
+
+
+@media (max-width: 600px) {
+   /*  ----------------------------------------------------------
+    *  |                      HEADER DIV                        |
+    *  ----------------------------------------------------------
+    */
+    .header-div {
+        height: 10rem;
+
+        .nav-div {
+            height: 100%;
+            position: relative;
+            gap: 1.5rem;
+
+            img {
+                position: absolute;
+                top: -1rem;
+                left: calc(50% - 65px);
+            }
+            a {
+                margin-top: 5rem;
+                transform: scale(1.1, 1.1);
+            }
+        }
+    }
+
+   /*  ----------------------------------------------------------
+    *  |                    PRESET WORKOUTS                     |
+    *  ----------------------------------------------------------
+    */
+    .start-workout-a,
+    .edit-workout-button {
+        font-size: 1em;
+        text-align: center;
+        padding: 0.5rem;
     }
 }

@@ -45,6 +45,10 @@ app.get("/calendar", (req, res) => {
     res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
 });
 
+app.get("/workout", (req, res) => {
+    res.render("workout-in-progress", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -9,6 +9,7 @@
     <title>Gym Tracker</title>
 </head>
 <body>
+    
     <div class="header-div">
         <div class="nav-div">
             <img src="/icons/icon-512.png" alt="logo">
@@ -17,6 +18,7 @@
             <a href="/calendar">Calendar</a>
         </div>
     </div>
+    
     <div id="preset-workouts-div">
         <% presetWorkoutsData.forEach(workout => { %>
             <div class="preset-workout">
@@ -28,13 +30,27 @@
                     <% } %>
                 </div>
                 <div class="preset-workout-buttons">
-                    <a href="/workout" onclick="{startPresetWorkout()}" class="start-workout-a">Start workout</a>
+                    <button data-workout='<%- JSON.stringify(workout) %>' 
+                            onclick="startPresetWorkout(JSON.parse(this.getAttribute('data-workout')))" 
+                            class="start-workout-a">Start workout</button>
                     <button class="edit-workout-button">Edit workout</button>
                 </div>
             </div>
             <%  %>
         <% }); %>
     </div>
+
+    <div id="workout-in-progress-background">
+        <div>
+            <h2>Workout in progress</h2>
+            <form id="log-workout-form" action="/log-workout" method="POST">
+                <fieldset id="exercises-fieldset"></fieldset>
+                <button type="submit">End workout</button>
+            </form> 
+            <button onclick="cancelWorkout()">Cancel workout</button>
+        </div>
+    </div>
+
     <script src="/scripts.js" defer></script>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>

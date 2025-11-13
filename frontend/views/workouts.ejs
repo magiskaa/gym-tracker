@@ -32,22 +32,23 @@
                 <div class="preset-workout-buttons">
                     <button data-workout='<%- JSON.stringify(workout) %>' 
                             onclick="startPresetWorkout(JSON.parse(this.getAttribute('data-workout')))" 
-                            class="start-workout-a">Start workout</button>
-                    <button class="edit-workout-button">Edit workout</button>
+                            class="start-workout-a">Start</button>
+                    <button class="edit-workout-button">Edit</button>
                 </div>
             </div>
-            <%  %>
         <% }); %>
     </div>
 
     <div id="workout-in-progress-background">
-        <div>
+        <div id="workout-in-progress-div">
             <h2>Workout in progress</h2>
             <form id="log-workout-form" action="/log-workout" method="POST">
                 <fieldset id="exercises-fieldset"></fieldset>
-                <button type="submit">End workout</button>
-            </form> 
-            <button onclick="cancelWorkout()">Cancel workout</button>
+                <div id="workout-in-progress-buttons">
+                    <button type="submit">End</button>
+                    <button type="button" onclick="cancelWorkout()">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 

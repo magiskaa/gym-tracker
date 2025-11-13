@@ -21,40 +21,53 @@ function startPresetWorkout(workout) {
     console.log(workout);
 
     const workoutInProgressBackground = document.getElementById("workout-in-progress-background")
-    workoutInProgressBackground.style.display = "block";
+    workoutInProgressBackground.style.display = "flex";
 
     const exercisesFieldset = document.getElementById("exercises-fieldset");
 
-    for (const [ index, exercise ] of workout["exercises"].entries()) {
-        const exerciseLabel = document.createElement("label");
-        exerciseLabel.name = exercise;
+    for (const exercise of workout["exercises"]) {
+        const exerciseDiv = document.createElement("div");
+        exerciseDiv.name = exercise;
 
         const exerciseNameSpan = document.createElement("span");
-        exerciseNameSpan.textContent = `${index+1}. ${window.exercises[exercise]["name"]}`;
+        exerciseNameSpan.textContent = window.exercises[exercise]["name"];
 
         const deleteExerciseButton = document.createElement("button");
         deleteExerciseButton.textContent = "Poista";
+        deleteExerciseButton.type = "button";
+        deleteExerciseButton.style.gridColumn = 3;
+        deleteExerciseButton.style.gridRow = 1;
 
         deleteExerciseButton.addEventListener("click", () => {
-            console.log("Poista");
+            const deleteExercise = window.confirm(`Are you sure you want to delete ${window.exercises[exercise]["name"]}?`);
+            if (!deleteExercise) { return; }
+            exerciseDiv.remove();
         });
+
+        const setsInput = document.createElement("input");
+        setsInput.type = "number";
+        setsInput.name = `sets-${exercise}`;
+        setsInput.placeholder = "Sets";
+        setsInput.style.gridColumn = 1;
+        setsInput.style.gridRow = 2;
 
         const repsInput = document.createElement("input");
         repsInput.type = "number";
-        repsInput.name = "reps";
-        repsInput.placeholder = "Reps / Set";
-        repsInput.style.gridColumn = 1;
+        repsInput.name = `reps-${exercise}`;
+        repsInput.placeholder = "Reps";
+        repsInput.style.gridColumn = 2;
         repsInput.style.gridRow = 2;
 
         const weightInput = document.createElement("input");
         weightInput.type = "number";
-        weightInput.name = "weight";
+        weightInput.step = "0.5";
+        weightInput.name = `weight-${exercise}`;
         weightInput.placeholder = "Weight";
-        weightInput.style.gridColumn = 2;
+        weightInput.style.gridColumn = 3;
         weightInput.style.gridRow = 2;
 
-        exerciseLabel.append(exerciseNameSpan, deleteExerciseButton, repsInput, weightInput);
-        exercisesFieldset.appendChild(exerciseLabel);
+        exerciseDiv.append(exerciseNameSpan, deleteExerciseButton, setsInput, repsInput, weightInput);
+        exercisesFieldset.appendChild(exerciseDiv);
     }
 }
 

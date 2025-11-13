@@ -9,7 +9,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "..", "frontend", "views"));
 app.use(express.static(path.join(__dirname, "..", "frontend", "public")));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json);
+app.use(express.json());
 
 const workoutsPath = path.join(__dirname,"..", "data", "workouts.json");
 const exercisesPath = path.join(__dirname,"..", "data", "exercises.json");
@@ -44,10 +44,6 @@ app.get("/exercises", (req, res) => {
 
 app.get("/calendar", (req, res) => {
     res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
-});
-
-app.get("/workout", (req, res) => {
-    res.render("workout-in-progress", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
 });
 
 app.listen(PORT, () => {

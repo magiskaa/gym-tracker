@@ -43,16 +43,12 @@
 
     <div id="custom-workout-div">
         <h2>Custom workout</h2>
-        <div class="exercise-div">
-            <select name="ni" id="ni">
-                <option value="" disabled selected>Select an exercise</option>
-                <% for (const [index, exercise] of Object.entries(exercisesData)) { %>
-                    <option value="<%= index %>"><%= exercise.name %></option>
-                <% } %>
-            </select>
-            <button>Delete</button>
+        <div id="custom-workout-buttons">
+            <button id="custom-workout-start-button" 
+                    class="start-workout-button"
+                    onclick="startCustomWorkout()">Start</button>
+            <button id="custom-workout-add-exercise-button">Add exercise</button>
         </div>
-        <button class="start-workout-button">Start</button>
     </div>
 
     <div class="start-edit-workout-background">

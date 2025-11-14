@@ -80,7 +80,8 @@ button, a {
     font-size: 1em;
 }
 
-.edit-workout-button {
+.edit-workout-button,
+#custom-workout-add-exercise-button {
     background: var(--bg-dark);
     color: var(--secondary);
     border: solid 1px var(--secondary);
@@ -200,13 +201,14 @@ input, select {
     margin: 1rem;
 
     h2 {
-        margin: 1rem 0 2rem 0;
+        margin: 0.5rem 0 1.5rem 0;
         text-align: center;
     }
     .exercise-div {
         display: grid;
         grid-template-columns: 1fr 0.5fr;
         gap: 1rem;
+        margin-bottom: 2rem;
 
         select {
             width: 100%;
@@ -216,10 +218,14 @@ input, select {
             background: hsla(0, 70%, 50%, 0.8);
         }
     }
-    .start-workout-button {
-        display: block;
-        width: 50%;
-        margin: 2rem auto 0 auto;
+    #custom-workout-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        button {
+            width: 85%;
+            margin: auto;
+        }
     }
  }
 
@@ -360,10 +366,12 @@ input, select {
 
    /*  ----------------------------------------------------------
     *  |                    PRESET WORKOUTS                     |
+    *  |                    CUSTOM WORKOUTS                     |
     *  ----------------------------------------------------------
     */
     .start-workout-button,
-    .edit-workout-button {
+    .edit-workout-button,
+    #custom-workout-add-exercise-button {
         padding: 0.5rem;
     }
 }

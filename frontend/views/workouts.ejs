@@ -32,21 +32,50 @@
                 <div class="preset-workout-buttons">
                     <button data-workout='<%- JSON.stringify(workout) %>' 
                             onclick="startPresetWorkout(JSON.parse(this.getAttribute('data-workout')))" 
-                            class="start-workout-a">Start</button>
-                    <button class="edit-workout-button">Edit</button>
+                            class="start-workout-button">Start</button>
+                    <button data-workout='<%- JSON.stringify(workout) %>'
+                            onclick="editPresetWorkout(JSON.parse(this.getAttribute('data-workout')))"
+                            class="edit-workout-button">Edit</button>
                 </div>
             </div>
         <% }); %>
     </div>
 
-    <div id="workout-in-progress-background">
+    <div id="custom-workout-div">
+        <h2>Custom workout</h2>
+        <div class="exercise-div">
+            <select name="ni" id="ni">
+                <option value="" disabled selected>Select an exercise</option>
+                <% for (const [index, exercise] of Object.entries(exercisesData)) { %>
+                    <option value="<%= index %>"><%= exercise.name %></option>
+                <% } %>
+            </select>
+            <button>Delete</button>
+        </div>
+        <button class="start-workout-button">Start</button>
+    </div>
+
+    <div class="start-edit-workout-background">
         <div id="workout-in-progress-div">
             <h2>Workout in progress</h2>
             <form id="log-workout-form" action="/log-workout" method="POST">
-                <fieldset id="exercises-fieldset"></fieldset>
+                <fieldset class="exercises-fieldset"></fieldset>
                 <div id="workout-in-progress-buttons">
                     <button type="submit">End</button>
                     <button type="button" onclick="cancelWorkout()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="start-edit-workout-background">
+        <div id="edit-workout-div">
+            <h2>Edit preset workout</h2>
+            <form id="edit-workout-form" action="/edit-workout" method="POST">
+                <fieldset class="exercises-fieldset"></fieldset>
+                <div id="edit-workout-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" onclick="cancelEdit()">Cancel</button>
                 </div>
             </form>
         </div>

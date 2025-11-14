@@ -17,13 +17,25 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+function showBackground(background) {
+    background.style.display = "flex";
+    background.style.animation = "fade-in 0.3s ease-in-out";
+}
+
+function hideBackground(background) {
+    background.style.animation = "fade-out 0.3s ease-in-out";
+    background.addEventListener("animationend", () => {
+        background.style.display = "none";
+    }, { once: true });
+}
+
 function startPresetWorkout(workout) {
-    console.log(workout);
+    const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[0];
+    exercisesFieldset.textContent = "";
 
-    const workoutInProgressBackground = document.getElementById("workout-in-progress-background")
-    workoutInProgressBackground.style.display = "flex";
-
-    const exercisesFieldset = document.getElementById("exercises-fieldset");
+    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
+    showBackground(startEditWorkoutBackground);
 
     for (const exercise of workout["exercises"]) {
         const exerciseDiv = document.createElement("div");
@@ -33,7 +45,7 @@ function startPresetWorkout(workout) {
         exerciseNameSpan.textContent = window.exercises[exercise]["name"];
 
         const deleteExerciseButton = document.createElement("button");
-        deleteExerciseButton.textContent = "Poista";
+        deleteExerciseButton.textContent = "Delete";
         deleteExerciseButton.type = "button";
         deleteExerciseButton.style.gridColumn = 3;
         deleteExerciseButton.style.gridRow = 1;
@@ -75,9 +87,59 @@ function cancelWorkout() {
     const cancel = window.confirm("Are you sure you want to cancel this workout?");
     if (!cancel) { return; }
 
-    const workoutInProgressBackground = document.getElementById("workout-in-progress-background")
-    workoutInProgressBackground.style.display = "none";
+    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
+    hideBackground(startEditWorkoutBackground);
+}
 
-    const exercisesFieldset = document.getElementById("exercises-fieldset");
+function editPresetWorkout(workout) {
+    const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[1];
     exercisesFieldset.textContent = "";
+
+    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
+    showBackground(startEditWorkoutBackground);
+
+    for (const exercise of workout["exercises"]) {
+        const exerciseName = window.exercises[exercise]["name"];
+
+        const exerciseDiv = document.createElement("div");
+
+        const exerciseSelect = document.createElement("select");
+        exerciseSelect.name = exercise;
+
+        const exerciseDefaultOption = document.createElement("option");
+        exerciseDefaultOption.value = exercise;
+        exerciseDefaultOption.textContent = exerciseName;
+        exerciseDefaultOption.selected = true;
+
+        exerciseSelect.appendChild(exerciseDefaultOption);
+
+        for (const [index, ex] of Object.entries(window.exercises)) {
+            const exerciseOption = document.createElement("option");
+            if (ex["name"] === exerciseName) { continue; }
+            exerciseOption.value = index;
+            exerciseOption.textContent = ex["name"];
+            exerciseSelect.appendChild(exerciseOption);
+        }
+
+        const deleteExerciseButton = document.createElement("button");
+        deleteExerciseButton.textContent = "Delete";
+        deleteExerciseButton.type = "button";
+
+        deleteExerciseButton.addEventListener("click", () => {
+            const deleteExercise = window.confirm(`Are you sure you want to delete ${exerciseName}?`);
+            if (!deleteExercise) { return; }
+            exerciseDiv.remove();
+        });
+
+        exerciseDiv.append(exerciseSelect, deleteExerciseButton);
+        exercisesFieldset.appendChild(exerciseDiv);
+    }
+}
+
+function cancelEdit() {
+    const cancel = window.confirm("Are you sure you want to cancel editing?");
+    if (!cancel) { return; }
+
+    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
+    hideBackground(startEditWorkoutBackground);
 }

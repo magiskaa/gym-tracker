@@ -180,6 +180,7 @@ function createExerciseFields(exercisesFieldset, exercise) {
     setsInput.type = "number";
     setsInput.name = `sets-${exercise}`;
     setsInput.placeholder = "Sets";
+    setsInput.required = true;
     setsInput.style.gridColumn = 1;
     setsInput.style.gridRow = 2;
 
@@ -187,6 +188,7 @@ function createExerciseFields(exercisesFieldset, exercise) {
     repsInput.type = "number";
     repsInput.name = `reps-${exercise}`;
     repsInput.placeholder = "Reps";
+    repsInput.required = true;
     repsInput.style.gridColumn = 2;
     repsInput.style.gridRow = 2;
 
@@ -195,6 +197,7 @@ function createExerciseFields(exercisesFieldset, exercise) {
     weightInput.step = "0.5";
     weightInput.name = `weight-${exercise}`;
     weightInput.placeholder = "Weight";
+    weightInput.required = true;
     weightInput.style.gridColumn = 3;
     weightInput.style.gridRow = 2;
 

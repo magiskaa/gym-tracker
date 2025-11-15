@@ -96,7 +96,7 @@ app.post("/log-workout", (req, res) => {
     fs.writeFileSync(exercisesPath, JSON.stringify({ exercises }, null, 4), 'utf8');
     fs.writeFileSync(workoutsPath, JSON.stringify({ preset_workouts: presetWorkouts, completed_workouts: completedWorkouts }, null, 4), 'utf8');
 
-    res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+    res.redirect("calendar");
 });
 
 

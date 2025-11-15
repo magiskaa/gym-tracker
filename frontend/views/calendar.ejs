@@ -17,6 +17,21 @@
             <a href="/calendar">Calendar</a>
         </div>
     </div>
+
+    <div id="workouts-list-div">
+        <% for (let i=completedWorkoutsData.length-1; i>=0; i--) { %>
+            <% const workout = completedWorkoutsData[i] %>
+            <div class="workout">
+                <h3><%= workout.name %></h3>
+                <span><%= workout.date %>,</span>
+                <span><%= workout.duration %></span><br>
+                <% workout.exercises.forEach(exercise => { %>
+                    <span><%= exercisesData[exercise].name %></span>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+
     <script src="/scripts.js" defer></script>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>

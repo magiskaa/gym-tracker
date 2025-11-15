@@ -32,6 +32,8 @@ function createCustomWorkoutFields() {
     const customWorkoutDiv = document.getElementById("custom-workout-div");
     const customWorkoutButtons = document.getElementById("custom-workout-buttons");
 
+    if (!customWorkoutDiv || !customWorkoutButtons) { return; }
+
     const createField = () => {
         const div = document.createElement("div");
         div.className = "exercise-div";
@@ -111,6 +113,12 @@ function startPresetWorkout(workout) {
     const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
     showBackground(startEditWorkoutBackground);
 
+    const workoutNameInput = document.createElement("input");
+    workoutNameInput.type = "hidden";
+    workoutNameInput.name = "name";
+    workoutNameInput.value = workout["name"];
+    exercisesFieldset.appendChild(workoutNameInput);
+
     for (const exercise of workout["exercises"]) {
         createExerciseFields(exercisesFieldset, exercise);
     }
@@ -132,6 +140,12 @@ function startCustomWorkout() {
         .filter(exercise => exercise !== "Select an exercise");
 
     const chosenExercisesSet = new Set(chosenExercises);
+
+    const workoutNameInput = document.createElement("input");
+    workoutNameInput.type = "hidden";
+    workoutNameInput.name = "name";
+    workoutNameInput.value = "Custom workout";
+    exercisesFieldset.appendChild(workoutNameInput);
 
     for (const exercise of chosenExercisesSet) {
         createExerciseFields(exercisesFieldset, exercise);

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/magiskaa/gym-tracker#readme",
   "dependencies": {
+    "chart.js": "^4.5.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0"
   }

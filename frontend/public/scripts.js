@@ -27,6 +27,18 @@ function loadData() {
 }
 
 /**
+ * 
+ */
+function createExerciseCharts() {
+    for (const [id, exercise] of Object.entries(window.exercises)) {
+        const repsCanvas = document.getElementById(`reps-chart-${id}`);
+        const weightCanvas = document.getElementById(`weight-chart-${id}`);
+
+        // TODO: Create charts for reps / set and weight
+    }
+}
+
+/**
  * Creates 3 exercise fields for the "Custom workout"-section
  */
 function createCustomWorkoutFields() {
@@ -53,9 +65,9 @@ function createCustomWorkoutFields() {
 
         select.appendChild(defaultOption);
 
-        for (const [index, exercise] of Object.entries(window.exercises)) {
+        for (const [id, exercise] of Object.entries(window.exercises)) {
             const option = document.createElement("option");
-            option.value = index;
+            option.value = id;
             option.textContent = exercise["name"];
 
             select.appendChild(option);
@@ -320,10 +332,10 @@ function editPresetWorkout(workout) {
 
         exerciseSelect.appendChild(exerciseDefaultOption);
 
-        for (const [index, ex] of Object.entries(window.exercises)) {
+        for (const [id, ex] of Object.entries(window.exercises)) {
             const exerciseOption = document.createElement("option");
             if (ex["name"] === exerciseName) { continue; }
-            exerciseOption.value = index;
+            exerciseOption.value = id;
             exerciseOption.textContent = ex["name"];
             exerciseSelect.appendChild(exerciseOption);
         }

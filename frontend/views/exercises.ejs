@@ -17,6 +17,24 @@
             <a href="/calendar">Calendar</a>
         </div>
     </div>
+
+    <div id="exercises-list-div">
+        <% for (const [id, exercise] of Object.entries(exercisesData)) { %>
+            <div class="exercise">
+                <span class="exercise-name-span"><%= exercise.name %></span><br>
+                <span class="exercise-category-span"><%= exercise.category %></span>
+                <div class="exercise-chart-div">
+                    <div class="exercise-chart">
+                        <canvas id="reps-chart-<%= id %>"></canvas>
+                    </div>
+                    <div class="exercise-chart">
+                        <canvas id="weight-chart-<%= id %>"></canvas>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
     <script src="/scripts.js" defer></script>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>

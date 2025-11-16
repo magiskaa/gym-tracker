@@ -2,6 +2,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     loadData();
     createCustomWorkoutFields();
+    createCalendar();
 });
 
 /**
@@ -79,6 +80,82 @@ function createCustomWorkoutFields() {
     addExerciseButton.addEventListener("click", () => {
         createField();
     });
+}
+
+let currentDate = new Date();
+/**
+ * 
+ * @param {Number} direction Either 1 or -1 depending on which button has been clicked (Last month or Next month)
+ */
+function changeMonth(direction) {
+    currentDate.setMonth(currentDate.getMonth() + direction);
+    createCalendar(currentDate.getMonth(), currentDate.getFullYear())
+}
+
+/**
+ * Creates a calendar that shows all the days when a workout has been logged
+ * @param {Number} monthIndex Index of the month
+ * @param {Number} year Full year
+ * @returns void
+ */
+function createCalendar(monthIndex=(new Date().getMonth()), year=(new Date).getFullYear()) {
+    const calendarDiv = document.getElementById("calendar-div");
+    if (!calendarDiv) { return; }
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let currentMonth = months[monthIndex];
+
+    const calendarMonthSpan = document.getElementById("calendar-month-span");
+    calendarMonthSpan.textContent = `${currentMonth} ${year}`;
+
+    const calendar = document.getElementById("calendar");
+    calendar.textContent = "";
+
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    dayNames.forEach(day => {
+        const div = document.createElement("div");
+        div.className = "calendar-weekday-div";
+        div.textContent = day;
+        calendar.appendChild(div);
+    });
+
+    let firstDay = new Date(year, monthIndex, 1).getDay();
+    if (firstDay === 0) { firstDay = 7; }
+    for (let i=1; i<firstDay; i++) {
+        const div = document.createElement("div");
+        div.className = "calendar-empty-div";
+        calendar.appendChild(div);
+    }
+    
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+    const today = new Date();
+    for (let i=0; i<daysInMonth; i++) {
+        const div = document.createElement("div");
+        div.className = "calendar-day-div";
+        div.textContent = i + 1;
+        if (i + 1 === today.getDate() && monthIndex === today.getMonth() && year === today.getFullYear()) { 
+            div.style.background = "var(--bg-lighter)";
+        }
+        calendar.appendChild(div);
+
+        const date = formatDate(new Date(year, monthIndex, i+1));
+        const workouts = window.completedWorkouts.filter(workout => workout["date"] === date);
+
+        workouts.forEach(workout => {
+            const workoutDiv = document.createElement("div");
+            workoutDiv.className = "calendar-workout-div";
+            workoutDiv.textContent = workout["name"];
+            div.appendChild(workoutDiv);
+        });
+    }
+
+    let emptyDivCount = 35 - (firstDay - 1) - daysInMonth;
+    if (emptyDivCount < 0) { emptyDivCount += 7; }
+    for (let i=0; i<emptyDivCount; i++) {
+        const div = document.createElement("div");
+        div.className = "calendar-empty-div";
+        calendar.appendChild(div);
+    }
 }
 
 /**
@@ -276,4 +353,16 @@ function cancelEdit() {
 
     const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
     hideBackground(startEditWorkoutBackground);
+}
+
+/**
+ * Formats the given date, or todays date if no date has been given
+ * @param {Object} date Date object
+ * @returns Formatted date as a String
+ */
+function formatDate(date = new Date()) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${d}.${m}.${y}`;
 }

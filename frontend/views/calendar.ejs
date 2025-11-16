@@ -18,6 +18,15 @@
         </div>
     </div>
 
+    <div id="calendar-div">
+        <div id="calendar-header-div">
+            <button id="calendar-last-button" onclick="changeMonth(-1)">< Last</button>
+            <span id="calendar-month-span"></span>
+            <button id="calendar-next-button" onclick="changeMonth(1)">Next ></button>
+        </div>
+        <div id="calendar"></div>    
+    </div>
+
     <div id="workouts-list-div">
         <% for (let i=completedWorkoutsData.length-1; i>=0; i--) { %>
             <% const workout = completedWorkoutsData[i] %>

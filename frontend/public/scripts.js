@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
     loadData();
     createCustomWorkoutFields();
     createCalendar();
+    createExerciseCharts();
 });
 
 /**
@@ -28,13 +29,59 @@ function loadData() {
 
 /**
  * 
+ * @returns void
  */
 function createExerciseCharts() {
+    const exercisesListDiv = document.getElementById("exercises-list-div");
+    if (!exercisesListDiv) { return; }
+
     for (const [id, exercise] of Object.entries(window.exercises)) {
         const repsCanvas = document.getElementById(`reps-chart-${id}`);
         const weightCanvas = document.getElementById(`weight-chart-${id}`);
 
-        // TODO: Create charts for reps / set and weight
+        const data = exercise["history"].map(entry => {
+            return ({ 
+                date: formatDateWOYear(entry["date"]),
+                repsPerSet: entry["reps"] / entry["sets"],
+                weight: entry["weight"]
+            });
+        });
+
+        new Chart(repsCanvas, {
+            type: "line",
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
+                maintainAspectRatio: false
+            },
+            data: {
+                labels: data.map(row => row["date"]),
+                datasets: [{
+                    label: "Reps / Set",
+                    data: data.map(row => row["repsPerSet"]),
+                    backgroundColor: "hsl(117, 66%, 45%)",
+                    borderColor: "hsl(117, 66%, 45%)"
+                }]
+            }
+        });
+
+        new Chart(weightCanvas, {
+            type: "line",
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
+                maintainAspectRatio: false
+            },
+            data: {
+                labels: data.map(row => row["date"]),
+                datasets: [{
+                    label: "Weight (kg)",
+                    data: data.map(row => row["weight"]),
+                    backgroundColor: "hsl(20, 71%, 53%)",
+                    borderColor: "hsl(20, 71%, 53%)"
+                }]
+            }
+        });
     }
 }
 
@@ -377,4 +424,10 @@ function formatDate(date = new Date()) {
     const m = String(date.getMonth() + 1).padStart(2, "0");
     const d = String(date.getDate()).padStart(2, "0");
     return `${d}.${m}.${y}`;
+}
+
+
+function formatDateWOYear(date) {
+    const [d, m, y] = date.split(".");
+    return `${d}.${m}.`;
 }

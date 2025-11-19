@@ -52,6 +52,14 @@ body {
     overflow: hidden;
 }
 
+#workouts-body,
+#exercises-body,
+#calendar-body {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 1rem;
+}
+
 h1, h2, h3 {
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
@@ -148,6 +156,10 @@ input, select {
  *  |                    PRESET WORKOUTS                     |
  *  ----------------------------------------------------------
  */
+#workouts-body {
+    gap: 2rem;
+}
+
 #preset-workouts-div {
     display: flex;
     overflow-x: scroll;
@@ -193,12 +205,6 @@ input, select {
     }
 }
 
-
-#workouts-body {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    gap: 2rem;
-}
 
 /*  ----------------------------------------------------------
  *  |                     CUSTOM WORKOUT                     |
@@ -247,6 +253,7 @@ input, select {
 /*  ----------------------------------------------------------
  *  |                  WORKOUT IN PROGRESS                   |
  *  |                      EDIT WORKOUT                      |
+ *  |                      ADD EXERCISE                      |
  *  ----------------------------------------------------------
  */
 .blurred-background {
@@ -263,7 +270,8 @@ input, select {
 }
 
 #workout-in-progress-div,
-#edit-workout-div {
+#edit-workout-div,
+#add-exercise-div {
     background: var(--bg-transparent);
     box-shadow: var(--shadow-s);
     border-radius: var(--border-radius);
@@ -277,7 +285,8 @@ input, select {
         margin: 2rem;
         text-align: center;
     }
-    .exercises-fieldset {
+    .exercises-fieldset,
+    #add-exercise-fieldset {
         width: 100%;
         margin: 0;
         padding: 0;
@@ -312,7 +321,8 @@ input, select {
         }
     }
     #workout-in-progress-buttons,
-    #edit-workout-buttons {
+    #edit-workout-buttons,
+    #add-exercise-buttons {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
@@ -335,21 +345,22 @@ input, select {
 }
 
 #edit-workout-div .exercises-fieldset div {
-    grid-template-columns: 1fr 0.5fr;
-    margin: 1.5rem 0;
+    grid-template-columns: 1fr 0.5fr !important;
+    margin: 1.5rem 0 !important;
 }
 
+#add-exercise-fieldset div {
+    grid-template-columns: 1fr 1fr !important;
+
+    input, select {
+        width: 100%;
+    }
+}
 
 /*  ----------------------------------------------------------
  *  |                  EXERCISES ADD SORT                    |
  *  ----------------------------------------------------------
  */
-#exercises-body {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    gap: 1rem;
-}
-
 #exercises-add-sort-div {
     display: grid;
     grid-template-columns: 1fr auto auto;
@@ -475,7 +486,7 @@ input, select {
     box-shadow: var(--shadow-s);
     border-radius: var(--border-radius);
     height: 28rem;
-    margin: 2rem 1rem;
+    margin: 1rem;
     padding: 1rem;
 
     #calendar-header-div {
@@ -547,8 +558,8 @@ input, select {
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     gap: 1rem;
-    margin: 2rem 1rem;
-    height: 20rem;
+    margin: 0 1rem;
+    height: calc(100% - 2rem);
 
     .workout {
         background: var(--bg);
@@ -559,7 +570,7 @@ input, select {
         box-sizing: border-box;
         flex-shrink: 0;
         scroll-snap-align: center;
-        height: 9.25rem;
+        height: calc((100% - 1rem) / 2);
         width: 100%;
 
         &:first-of-type, &:last-of-type {

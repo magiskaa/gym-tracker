@@ -237,8 +237,8 @@ function startPresetWorkout(workout) {
     const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[0];
     exercisesFieldset.textContent = "";
 
-    const startEditWorkoutBackground = document.getElementsByClassName("blurred-background")[0];
-    showBackground(startEditWorkoutBackground);
+    const blurredBackground = document.getElementsByClassName("blurred-background")[0];
+    showBackground(blurredBackground);
 
     const workoutNameInput = document.createElement("input");
     workoutNameInput.type = "hidden";
@@ -259,8 +259,8 @@ function editPresetWorkout(workout) {
     const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[1];
     exercisesFieldset.textContent = "";
 
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
-    showBackground(startEditWorkoutBackground);
+    const blurredBackground = document.getElementsByClassName("blurred-background")[1];
+    showBackground(blurredBackground);
 
     for (const exercise of workout["exercises"]) {
         const exerciseName = window.exercises[exercise]["name"];
@@ -412,6 +412,27 @@ function cancelEdit() {
  *  |                    EXERCISES PAGE                      |
  *  ----------------------------------------------------------
  */
+function addNewExercise() {
+    const addExerciseBackground = document.getElementsByClassName("blurred-background")[0];
+    showBackground(addExerciseBackground);
+}
+
+/**
+ * 
+ * @returns void
+ */
+function cancelAddExercise() {
+    const cancel = window.confirm("Are you sure you want to cancel adding this exercise?");
+    if (!cancel) { return; }
+
+    const addExerciseBackground = document.getElementsByClassName("blurred-background")[0];
+    hideBackground(addExerciseBackground);
+}
+
+/**
+ * 
+ * @param {String} category Which category's exercises will be shown
+ */
 function sortExercisesByCategory(category) {
     const exerciseDivs = document.getElementsByClassName("exercise");
     const categoryButton = document.getElementById("category-button");
@@ -426,9 +447,8 @@ function sortExercisesByCategory(category) {
     });
 }
 
-function sortExerciseDataByPeriod() {
+function sortExerciseDataByPeriod() {}
 
-}
 
 
 /*  ----------------------------------------------------------

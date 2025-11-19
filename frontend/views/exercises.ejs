@@ -21,7 +21,8 @@
     </div>
 
     <div id="exercises-add-sort-div">
-        <button id="exercises-add-button">Add exercise</button>
+        <button id="exercises-add-button" onclick="addNewExercise()">Add exercise</button>
+
         <div id="exercises-category-sort-div">
             <button id="category-button">Category</button>
             <div id="category-sort">
@@ -31,6 +32,7 @@
                 <% }); %>
             </div>
         </div>
+
         <div id="exercises-period-sort-div">
             <button id="period-button">Period</button>
             <div id="period-sort">
@@ -44,6 +46,7 @@
             <div class="exercise">
                 <span class="exercise-name-span"><%= exercise.name %></span><br>
                 <span class="exercise-category-span"><%= exercise.category %></span>
+                
                 <div class="exercise-chart-div">
                     <div class="exercise-chart">
                         <canvas id="reps-chart-<%= id %>"></canvas>
@@ -54,6 +57,29 @@
                 </div>
             </div>
         <% } %>
+    </div>
+
+    <div class="blurred-background">
+        <div id="add-exercise-div">
+            <h2>Add a new exercise</h2>
+            <form id="add-exercise-form" action="/add-exercise" method="POST">
+                <fieldset id="add-exercise-fieldset">
+                    <div>
+                        <input type="text" name="name" placeholder="Name">
+                        <select name="category" id="category-select">
+                            <option value="" selected disabled>Select a category</option>
+                            <% categoriesData.forEach(category => { %>
+                                <option value="<%= category %>"><%= category %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </fieldset>
+                <div id="add-exercise-buttons">
+                    <button type="submit">Add</button>
+                    <button type="button" onclick="cancelAddExercise()">Cancel</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

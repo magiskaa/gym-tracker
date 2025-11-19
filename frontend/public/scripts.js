@@ -14,18 +14,21 @@ window.addEventListener("DOMContentLoaded", () => {
  * Loads all the data from the JSON-files
  */
 function loadData() {
+    const categoriesElement = document.getElementById("categories-data");
     const exercisesElement = document.getElementById("exercises-data");
     const presetWorkoutsElement = document.getElementById("preset-workouts-data");
     const completedWorkoutsElement = document.getElementById("completed-workouts-data");
 
     try {
+        window.categories = JSON.parse(categoriesElement.textContent);
         window.exercises = JSON.parse(exercisesElement.textContent);
         window.presetWorkouts = JSON.parse(presetWorkoutsElement.textContent);
         window.completedWorkouts = JSON.parse(completedWorkoutsElement.textContent);
         console.log("Data loaded.", exercises);
     } catch (e) {
         console.error("Error loading data: ", e);
-        window.exercises = [];
+        window.categories = [];
+        window.exercises = {};
         window.presetWorkouts = [];
         window.completedWorkouts = [];
     }
@@ -409,6 +412,23 @@ function cancelEdit() {
  *  |                    EXERCISES PAGE                      |
  *  ----------------------------------------------------------
  */
+function sortExercisesByCategory(category) {
+    const exerciseDivs = document.getElementsByClassName("exercise");
+    const categoryButton = document.getElementById("category-button");
+    categoryButton.textContent = category;
+
+    Array.from(exerciseDivs).forEach(exercise => {
+        exercise.style.display = "block";
+        const categorySpan = exercise.getElementsByClassName("exercise-category-span")[0];
+
+        if (category === "All") { return; }
+        if (categorySpan.textContent !== category) { exercise.style.display = "none"; return; }
+    });
+}
+
+function sortExerciseDataByPeriod() {
+
+}
 
 
 /*  ----------------------------------------------------------

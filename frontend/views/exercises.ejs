@@ -20,20 +20,21 @@
         </div>
     </div>
 
-    <div id="exercises-settings-div">
+    <div id="exercises-add-sort-div">
         <button id="exercises-add-button">Add exercise</button>
         <div id="exercises-category-sort-div">
-            <button>Category</button>
+            <button id="category-button">Category</button>
             <div id="category-sort">
+                <span onclick="sortExercisesByCategory('All')">All</span>
                 <% categoriesData.forEach(category => { %>
-                    <span><%= category %></span>
+                    <span onclick="sortExercisesByCategory('<%= category %>')"><%= category %></span>
                 <% }); %>
             </div>
         </div>
         <div id="exercises-period-sort-div">
-            <button>Period</button>
+            <button id="period-button">Period</button>
             <div id="period-sort">
-                <span>Cut 1</span>
+                <span onclick="sortExerciseDataByPeriod()">Cut 1</span>
             </div>
         </div>
     </div>

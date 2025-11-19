@@ -341,7 +341,7 @@ input, select {
 
 
 /*  ----------------------------------------------------------
- *  |                     EXERCISES LIST                     |
+ *  |                  EXERCISES ADD SORT                    |
  *  ----------------------------------------------------------
  */
 #exercises-body {
@@ -350,21 +350,78 @@ input, select {
     gap: 1rem;
 }
 
-#exercises-settings-div {
+#exercises-add-sort-div {
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 1rem;
     margin: 1rem 1rem 0;
+    position: relative;
 
     #exercises-add-button {
-        width: fit-content;
+        width: 20vw;
+        min-width: fit-content;
     }
-    #category-sort,
-    #period-sort {
-        display: none;
+    #exercises-category-sort-div,
+    #exercises-period-sort-div {
+        button {
+            width: 20vw;
+            min-width: 8rem;
+        }
+        #category-sort,
+        #period-sort {
+            display: none;
+            position: absolute;
+            top: 4rem;
+            background: var(--bg-light);
+            box-shadow: var(--shadow-m);
+            border-radius: var(--border-radius);
+            width: 20vw;
+            min-width: 8rem;
+
+            span {
+                display: block;
+                text-align: center;
+                padding: 0.5rem;
+                
+                &:hover {
+                    background: var(--bg-lighter);
+                    border-radius: var(--border-radius);
+                    cursor: pointer;
+                }
+            }
+        }
+        &:hover {
+            #category-sort {
+                display: block;
+            }
+        }
+        &:hover {
+            #period-sort {
+                display: block;
+            }
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            top: 3rem;
+            width: 20vw;
+            min-width: 8rem;
+            height: 1rem;
+        }
+    }
+    #exercises-category-sort-div::after {
+        right: calc(20vw + 1rem);
+    }
+    #exercises-period-sort-div::after {
+        right: 0;
     }
 }
 
+
+/*  ----------------------------------------------------------
+ *  |                     EXERCISES LIST                     |
+ *  ----------------------------------------------------------
+ */
 #exercises-list-div {
     display: flex;
     flex-direction: column;
@@ -574,5 +631,13 @@ input, select {
     .edit-workout-button,
     #custom-workout-add-exercise-button {
         padding: 0.5rem;
+    }
+
+    /*  ----------------------------------------------------------
+     *  |                  EXERCISES ADD SORT                    |
+     *  ----------------------------------------------------------
+     */
+    #exercises-add-sort-div button:hover {
+        transform: none;
     }
 }

@@ -16,6 +16,7 @@ const exercisesPath = path.join(__dirname,"..", "data", "exercises.json");
 
 let presetWorkouts = [];
 let completedWorkouts = [];
+let categories = [];
 let exercises = [];
 
 function loadData() {
@@ -27,7 +28,8 @@ function loadData() {
 
         const exerciseData = fs.readFileSync(exercisesPath, "utf8");
         const exercisesDataParsed = JSON.parse(exerciseData);
-        exercises = exercisesDataParsed.exercises || [];
+        categories = exercisesDataParsed.categories || [];
+        exercises = exercisesDataParsed.exercises || {};
     } catch (e) {
         console.error("Error loading data: ", e);
     }
@@ -39,15 +41,15 @@ loadData();
  *  ----------------------------------------------------------
  */
 app.get("/", (req, res) => {
-    res.render("workouts", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+    res.render("workouts", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises });
 });
 
 app.get("/exercises", (req, res) => {
-    res.render("exercises", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+    res.render("exercises", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises });
 });
 
 app.get("/calendar", (req, res) => {
-    res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, exercisesData: exercises });
+    res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises });
 });
 
 

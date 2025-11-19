@@ -7,8 +7,9 @@
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Gym Tracker</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
 </head>
-<body>
+<body id="workouts-body">
     
     <div class="header-div">
         <div class="nav-div">
@@ -51,7 +52,7 @@
         </div>
     </div>
 
-    <div class="start-edit-workout-background">
+    <div class="blurred-background">
         <div id="workout-in-progress-div">
             <h2>Workout in progress</h2>
             <form id="log-workout-form" action="/log-workout" method="POST">
@@ -64,7 +65,7 @@
         </div>
     </div>
 
-    <div class="start-edit-workout-background">
+    <div class="blurred-background">
         <div id="edit-workout-div">
             <h2>Edit preset workout</h2>
             <form id="edit-workout-form" action="/edit-workout" method="POST">
@@ -80,6 +81,7 @@
     <script src="/scripts.js" defer></script>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>
+    <script type="application/json" id="categories-data"><%- JSON.stringify(categoriesData) %></script>
     <script type="application/json" id="exercises-data"><%- JSON.stringify(exercisesData) %></script>
 </body>
 </html>

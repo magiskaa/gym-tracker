@@ -1,9 +1,13 @@
 
+/*  ----------------------------------------------------------
+ *  |                        ONLOAD                          |
+ *  ----------------------------------------------------------
+ */
 window.addEventListener("DOMContentLoaded", () => {
     loadData();
     createCustomWorkoutFields();
-    createCalendar();
     createExerciseCharts();
+    createCalendar();
 });
 
 /**
@@ -24,64 +28,6 @@ function loadData() {
         window.exercises = [];
         window.presetWorkouts = [];
         window.completedWorkouts = [];
-    }
-}
-
-/**
- * 
- * @returns void
- */
-function createExerciseCharts() {
-    const exercisesListDiv = document.getElementById("exercises-list-div");
-    if (!exercisesListDiv) { return; }
-
-    for (const [id, exercise] of Object.entries(window.exercises)) {
-        const repsCanvas = document.getElementById(`reps-chart-${id}`);
-        const weightCanvas = document.getElementById(`weight-chart-${id}`);
-
-        const data = exercise["history"].map(entry => {
-            return ({ 
-                date: formatDateWOYear(entry["date"]),
-                repsPerSet: entry["reps"] / entry["sets"],
-                weight: entry["weight"]
-            });
-        });
-
-        new Chart(repsCanvas, {
-            type: "line",
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
-                maintainAspectRatio: false
-            },
-            data: {
-                labels: data.map(row => row["date"]),
-                datasets: [{
-                    label: "Reps / Set",
-                    data: data.map(row => row["repsPerSet"]),
-                    backgroundColor: "hsl(117, 66%, 45%)",
-                    borderColor: "hsl(117, 66%, 45%)"
-                }]
-            }
-        });
-
-        new Chart(weightCanvas, {
-            type: "line",
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
-                maintainAspectRatio: false
-            },
-            data: {
-                labels: data.map(row => row["date"]),
-                datasets: [{
-                    label: "Weight (kg)",
-                    data: data.map(row => row["weight"]),
-                    backgroundColor: "hsl(20, 71%, 53%)",
-                    borderColor: "hsl(20, 71%, 53%)"
-                }]
-            }
-        });
     }
 }
 
@@ -141,9 +87,67 @@ function createCustomWorkoutFields() {
     });
 }
 
+/**
+ * Creates "Reps / Set" and "Weight" -charts for every exercise in the list
+ * @returns void
+ */
+function createExerciseCharts() {
+    const exercisesListDiv = document.getElementById("exercises-list-div");
+    if (!exercisesListDiv) { return; }
+
+    for (const [id, exercise] of Object.entries(window.exercises)) {
+        const repsCanvas = document.getElementById(`reps-chart-${id}`);
+        const weightCanvas = document.getElementById(`weight-chart-${id}`);
+
+        const data = exercise["history"].map(entry => {
+            return ({ 
+                date: formatDateWOYear(entry["date"]),
+                repsPerSet: entry["reps"] / entry["sets"],
+                weight: entry["weight"]
+            });
+        });
+
+        new Chart(repsCanvas, {
+            type: "line",
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
+                maintainAspectRatio: false
+            },
+            data: {
+                labels: data.map(row => row["date"]),
+                datasets: [{
+                    label: "Reps / Set",
+                    data: data.map(row => row["repsPerSet"]),
+                    backgroundColor: "hsl(117, 66%, 45%)",
+                    borderColor: "hsl(117, 66%, 45%)"
+                }]
+            }
+        });
+
+        new Chart(weightCanvas, {
+            type: "line",
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { boxWidth: 0, boxHeight: 0 } } },
+                maintainAspectRatio: false
+            },
+            data: {
+                labels: data.map(row => row["date"]),
+                datasets: [{
+                    label: "Weight (kg)",
+                    data: data.map(row => row["weight"]),
+                    backgroundColor: "hsl(20, 71%, 53%)",
+                    borderColor: "hsl(20, 71%, 53%)"
+                }]
+            }
+        });
+    }
+}
+
 let currentDate = new Date();
 /**
- * 
+ * Changes the month on the calendar to the chosen direction
  * @param {Number} direction Either 1 or -1 depending on which button has been clicked (Last month or Next month)
  */
 function changeMonth(direction) {
@@ -217,27 +221,11 @@ function createCalendar(monthIndex=(new Date().getMonth()), year=(new Date).getF
     }
 }
 
-/**
- * Applies a fade-in animation to the provided element
- * @param {Element} background The element for which the fade-in animation is being applied to
+
+/*  ----------------------------------------------------------
+ *  |                     WORKOUT PAGE                       |
+ *  ----------------------------------------------------------
  */
-function showBackground(background) {
-    background.style.display = "flex";
-    background.style.animation = "fade-in 0.3s ease-in-out";
-}
-
-/**
- * Applies a fade-out animation to the provided element and then hides the element
- * @param {Element} background The element for which the fade-out animation is being applied to
- */
-function hideBackground(background) {
-    background.style.animation = "fade-out 0.3s ease-in-out";
-    background.addEventListener("animationend", () => {
-        background.style.display = "none";
-    }, { once: true });
-}
-
-
 /**
  * Displays a log-workout form with the exercises that are in the preset workout
  * @param {Array} workout An array of the exercise id:s that are in the preset workout
@@ -246,7 +234,7 @@ function startPresetWorkout(workout) {
     const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[0];
     exercisesFieldset.textContent = "";
 
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
+    const startEditWorkoutBackground = document.getElementsByClassName("blurred-background")[0];
     showBackground(startEditWorkoutBackground);
 
     const workoutNameInput = document.createElement("input");
@@ -261,13 +249,62 @@ function startPresetWorkout(workout) {
 }
 
 /**
+ * Displays and allows the exercises in the preset workout to be edited
+ * @param {Array} workout An array of the exercise id:s that are in the preset workout
+ */
+function editPresetWorkout(workout) {
+    const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[1];
+    exercisesFieldset.textContent = "";
+
+    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
+    showBackground(startEditWorkoutBackground);
+
+    for (const exercise of workout["exercises"]) {
+        const exerciseName = window.exercises[exercise]["name"];
+
+        const exerciseDiv = document.createElement("div");
+
+        const exerciseSelect = document.createElement("select");
+        exerciseSelect.name = exercise;
+
+        const exerciseDefaultOption = document.createElement("option");
+        exerciseDefaultOption.value = exercise;
+        exerciseDefaultOption.textContent = exerciseName;
+        exerciseDefaultOption.selected = true;
+
+        exerciseSelect.appendChild(exerciseDefaultOption);
+
+        for (const [id, ex] of Object.entries(window.exercises)) {
+            const exerciseOption = document.createElement("option");
+            if (ex["name"] === exerciseName) { continue; }
+            exerciseOption.value = id;
+            exerciseOption.textContent = ex["name"];
+            exerciseSelect.appendChild(exerciseOption);
+        }
+
+        const deleteExerciseButton = document.createElement("button");
+        deleteExerciseButton.textContent = "Delete";
+        deleteExerciseButton.type = "button";
+
+        deleteExerciseButton.addEventListener("click", () => {
+            const deleteExercise = window.confirm(`Are you sure you want to delete ${exerciseName}?`);
+            if (!deleteExercise) { return; }
+            exerciseDiv.remove();
+        });
+
+        exerciseDiv.append(exerciseSelect, deleteExerciseButton);
+        exercisesFieldset.appendChild(exerciseDiv);
+    }
+}
+
+/**
  * Displays a log-workout form with the exercises that are selected in the "Custom workout"-section
  */
 function startCustomWorkout() {
     const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[0];
     exercisesFieldset.textContent = "";
 
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
+    const startEditWorkoutBackground = document.getElementsByClassName("blurred-background")[0];
     showBackground(startEditWorkoutBackground);
 
     const selectElements = Array.from(document.querySelectorAll("select[name='exercise']"));
@@ -277,10 +314,12 @@ function startCustomWorkout() {
 
     const chosenExercisesSet = new Set(chosenExercises);
 
+    const workoutIndex = Array.from(completedWorkouts).length + 1;
+
     const workoutNameInput = document.createElement("input");
     workoutNameInput.type = "hidden";
     workoutNameInput.name = "name";
-    workoutNameInput.value = "Custom workout";
+    workoutNameInput.value = `Custom ${workoutIndex}`;
     exercisesFieldset.appendChild(workoutNameInput);
 
     for (const exercise of chosenExercisesSet) {
@@ -349,57 +388,8 @@ function cancelWorkout() {
     const cancel = window.confirm("Are you sure you want to cancel this workout?");
     if (!cancel) { return; }
 
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[0];
+    const startEditWorkoutBackground = document.getElementsByClassName("blurred-background")[0];
     hideBackground(startEditWorkoutBackground);
-}
-
-/**
- * Displays and allows the exercises in the preset workout to be edited
- * @param {Array} workout An array of the exercise id:s that are in the preset workout
- */
-function editPresetWorkout(workout) {
-    const exercisesFieldset = document.getElementsByClassName("exercises-fieldset")[1];
-    exercisesFieldset.textContent = "";
-
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
-    showBackground(startEditWorkoutBackground);
-
-    for (const exercise of workout["exercises"]) {
-        const exerciseName = window.exercises[exercise]["name"];
-
-        const exerciseDiv = document.createElement("div");
-
-        const exerciseSelect = document.createElement("select");
-        exerciseSelect.name = exercise;
-
-        const exerciseDefaultOption = document.createElement("option");
-        exerciseDefaultOption.value = exercise;
-        exerciseDefaultOption.textContent = exerciseName;
-        exerciseDefaultOption.selected = true;
-
-        exerciseSelect.appendChild(exerciseDefaultOption);
-
-        for (const [id, ex] of Object.entries(window.exercises)) {
-            const exerciseOption = document.createElement("option");
-            if (ex["name"] === exerciseName) { continue; }
-            exerciseOption.value = id;
-            exerciseOption.textContent = ex["name"];
-            exerciseSelect.appendChild(exerciseOption);
-        }
-
-        const deleteExerciseButton = document.createElement("button");
-        deleteExerciseButton.textContent = "Delete";
-        deleteExerciseButton.type = "button";
-
-        deleteExerciseButton.addEventListener("click", () => {
-            const deleteExercise = window.confirm(`Are you sure you want to delete ${exerciseName}?`);
-            if (!deleteExercise) { return; }
-            exerciseDiv.remove();
-        });
-
-        exerciseDiv.append(exerciseSelect, deleteExerciseButton);
-        exercisesFieldset.appendChild(exerciseDiv);
-    }
 }
 
 /**
@@ -410,8 +400,39 @@ function cancelEdit() {
     const cancel = window.confirm("Are you sure you want to cancel editing?");
     if (!cancel) { return; }
 
-    const startEditWorkoutBackground = document.getElementsByClassName("start-edit-workout-background")[1];
+    const startEditWorkoutBackground = document.getElementsByClassName("blurred-background")[1];
     hideBackground(startEditWorkoutBackground);
+}
+
+
+/*  ----------------------------------------------------------
+ *  |                    EXERCISES PAGE                      |
+ *  ----------------------------------------------------------
+ */
+
+
+/*  ----------------------------------------------------------
+ *  |                   HELPER FUNCTIONS                     |
+ *  ----------------------------------------------------------
+ */
+/**
+ * Applies a fade-in animation to the provided element
+ * @param {Element} background The element for which the fade-in animation is being applied to
+ */
+function showBackground(background) {
+    background.style.display = "flex";
+    background.style.animation = "fade-in 0.3s ease-in-out";
+}
+
+/**
+ * Applies a fade-out animation to the provided element and then hides the element
+ * @param {Element} background The element for which the fade-out animation is being applied to
+ */
+function hideBackground(background) {
+    background.style.animation = "fade-out 0.5s ease-in-out";
+    background.addEventListener("animationend", () => {
+        background.style.display = "none";
+    }, { once: true });
 }
 
 /**
@@ -426,7 +447,11 @@ function formatDate(date = new Date()) {
     return `${d}.${m}.${y}`;
 }
 
-
+/**
+ * Removes the year from the given date String
+ * @param {String} date Date as a String
+ * @returns Formatted date without year
+ */
 function formatDateWOYear(date) {
     const [d, m, y] = date.split(".");
     return `${d}.${m}.`;

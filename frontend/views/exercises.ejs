@@ -7,14 +7,34 @@
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Gym Tracker</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
 </head>
-<body>
+<body id="exercises-body">
+
     <div class="header-div">
         <div class="nav-div">
             <img src="/icons/icon-512.png" alt="logo">
             <a href="/">Workouts</a>
             <a href="/exercises">Exercises</a>
             <a href="/calendar">Calendar</a>
+        </div>
+    </div>
+
+    <div id="exercises-settings-div">
+        <button id="exercises-add-button">Add exercise</button>
+        <div id="exercises-category-sort-div">
+            <button>Category</button>
+            <div id="category-sort">
+                <% categoriesData.forEach(category => { %>
+                    <span><%= category %></span>
+                <% }); %>
+            </div>
+        </div>
+        <div id="exercises-period-sort-div">
+            <button>Period</button>
+            <div id="period-sort">
+                <span>Cut 1</span>
+            </div>
         </div>
     </div>
 
@@ -39,6 +59,7 @@
     <script src="/scripts.js" defer></script>
     <script type="application/json" id="preset-workouts-data"><%- JSON.stringify(presetWorkoutsData) %></script>
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>
+    <script type="application/json" id="categories-data"><%- JSON.stringify(categoriesData) %></script>
     <script type="application/json" id="exercises-data"><%- JSON.stringify(exercisesData) %></script>
 </body>
 </html>

@@ -20,6 +20,11 @@
         </div>
     </div>
     
+    <div id="nutrition-div">
+        <span>Remaining: <strong id="remaining-strong"><%= nutritionData["goal_cal"] - nutritionData["calories"] %></strong>kcal</span>
+        <span>Consumed: <strong id="consumed-strong"><%= nutritionData["calories"] %></strong>kcal</span>
+    </div>
+
     <div id="preset-workouts-div">
         <% presetWorkoutsData.forEach(workout => { %>
             <div class="preset-workout">
@@ -83,5 +88,6 @@
     <script type="application/json" id="completed-workouts-data"><%- JSON.stringify(completedWorkoutsData) %></script>
     <script type="application/json" id="categories-data"><%- JSON.stringify(categoriesData) %></script>
     <script type="application/json" id="exercises-data"><%- JSON.stringify(exercisesData) %></script>
+    <script type="application/json" id="nutrition-data"><%- JSON.stringify(nutritionData) %></script>
 </body>
 </html>

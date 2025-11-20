@@ -60,6 +60,10 @@ body {
     gap: 1rem;
 }
 
+#workouts-body {
+    grid-template-rows: auto auto auto 1fr;
+}
+
 h1, h2, h3 {
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
@@ -122,7 +126,7 @@ input, select {
 
 
 /*  ----------------------------------------------------------
- *  |                      HEADER DIV                        |
+ *  |                       HEADER DIV                       |
  *  ----------------------------------------------------------
  */
 .header-div {
@@ -153,19 +157,49 @@ input, select {
 
 
 /*  ----------------------------------------------------------
+ *  |                     NUTRITION DIV                      |
+ *  ----------------------------------------------------------
+ */
+#nutrition-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--bg);
+    box-shadow: var(--shadow-s);
+    border-radius: var(--border-radius);
+    margin: 0 1rem;
+    padding: 1rem;
+
+    span {
+        text-align: center;
+        font-size: 1.3em;
+        font-weight: 600;
+        color: var(--text);
+
+        strong {
+            font-size: 1.15em;
+            font-weight: 600;
+        }
+        #remaining-strong {
+            color: var(--primary);
+        }
+        #consumed-strong {
+            color: var(--secondary);
+        }
+    }
+}
+
+
+/*  ----------------------------------------------------------
  *  |                    PRESET WORKOUTS                     |
  *  ----------------------------------------------------------
  */
-#workouts-body {
-    gap: 2rem;
-}
-
 #preset-workouts-div {
     display: flex;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     gap: 1rem;
     margin: 0 1rem;
+    height: fit-content;
 
     .preset-workout {
         display: grid;
@@ -175,6 +209,7 @@ input, select {
         border-radius: var(--border-radius);
         border-top: solid 5px var(--primary);
         width: calc(50% - 0.5rem);
+        min-height: fit-content;
         box-sizing: border-box;
         flex-shrink: 0;
         scroll-snap-align: center;
@@ -216,12 +251,11 @@ input, select {
     border-radius: var(--border-radius);
     padding: 1rem;
     margin: 0 1rem;
-    height: fit-content;
     max-height: calc(100% - 4rem);
     overflow-y: scroll;
 
     h2 {
-        margin: 0.5rem 0 1.5rem 0;
+        margin: 0 0 1rem;
         text-align: center;
     }
     .exercise-div {

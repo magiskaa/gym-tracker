@@ -13,11 +13,13 @@ app.use(express.json());
 
 const workoutsPath = path.join(__dirname,"..", "data", "workouts.json");
 const exercisesPath = path.join(__dirname,"..", "data", "exercises.json");
+const nutritionPath = path.join(__dirname,"..", "data", "nutrition.json");
 
 let presetWorkouts = [];
 let completedWorkouts = [];
 let categories = [];
-let exercises = [];
+let exercises = {};
+let nutrition = {};
 
 function loadData() {
     try {
@@ -30,6 +32,10 @@ function loadData() {
         const exercisesDataParsed = JSON.parse(exerciseData);
         categories = exercisesDataParsed.categories || [];
         exercises = exercisesDataParsed.exercises || {};
+
+        const nutritionData = fs.readFileSync(nutritionPath, "utf8");
+        const nutritionDataParsed = JSON.parse(nutritionData);
+        nutrition = nutritionDataParsed.nutrition || {};
     } catch (e) {
         console.error("Error loading data: ", e);
     }
@@ -41,7 +47,7 @@ loadData();
  *  ----------------------------------------------------------
  */
 app.get("/", (req, res) => {
-    res.render("workouts", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises });
+    res.render("workouts", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises, nutritionData: nutrition });
 });
 
 app.get("/exercises", (req, res) => {
@@ -50,6 +56,13 @@ app.get("/exercises", (req, res) => {
 
 app.get("/calendar", (req, res) => {
     res.render("calendar", { presetWorkoutsData: presetWorkouts, completedWorkoutsData: completedWorkouts, categoriesData: categories, exercisesData: exercises });
+});
+
+// Get calories from a simple counter app
+app.get("/calories", (req, res) => {
+    const calories = req.query['calories'];
+    nutrition["calories"] = Number(calories);
+    fs.writeFileSync(nutritionPath, JSON.stringify({ nutrition }, null, 4), 'utf8');
 });
 
 
